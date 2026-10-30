@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Full OpSec & Privacy Guide: Physical OpSec, GrapheneOS, ThinkPad + Coreboot, Mullvad, Tor & I2P. Step by step.">
+<meta name="referrer" content="no-referrer">
+<meta name="theme-color" content="#000000">
+<title>OpSec Guide // Real3rr0r303YT</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23000'/%3E%3Ctext x='8' y='22' font-family='sans-serif' font-weight='bold' font-size='18' fill='%23ff3333'%3EØ%3C/text%3E%3C/svg%3E">
+<!--
+  OpSec Guide - Copyright (C) 2026 Real3rr0r303YT
+  This program is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version. See LICENSE.
+-->
+<style>
+:root {
+  --bg: #000000;
+  --bg-card: #0c0c0c;
+  --bg-hover: #161616;
+  --border: #222222;
+  --border-focus: #555555;
+  --text: #d0d0d0;
+  --text-muted: #888888;
+  --white: #ffffff;
+  --red: #ff3333;
+  --red-bg: rgba(255, 51, 51, 0.08);
+  --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --mono: "JetBrains Mono", SFMono-Regular, Consolas, "Liberation Mono", Menlo, monospace;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 15px;
+  line-height: 1.6;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+::selection { background: var(--white); color: var(--bg); }
+
+/* MULTI-LANGUAGE SWITCH LOGIC */
+[lang="en"] { display: none !important; }
+html[lang="en"] [lang="de"] { display: none !important; }
+html[lang="en"] [lang="en"] { display: inline !important; }
+html[lang="en"] div[lang="en"], 
+html[lang="en"] p[lang="en"], 
+html[lang="en"] section[lang="en"], 
+html[lang="en"] li[lang="en"], 
+html[lang="en"] span[lang="en"], 
+html[lang="en"] h1[lang="en"],
+html[lang="en"] h2[lang="en"], 
+html[lang="en"] h3[lang="en"],
+html[lang="en"] h4[lang="en"] { display: block !important; }
+
+/* LAYOUT & HEADER */
+.wrap { max-width: 900px; margin: 0 auto; padding: 0 20px; }
+
+header.top {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(0, 0, 0, 0.85);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(12px);
+}
+.top .wrap { display: flex; align-items: center; justify-content: space-between; height: 64px; }
+.brand { color: var(--white); text-decoration: none; font-weight: 700; font-family: var(--mono); letter-spacing: -0.5px; font-size: 16px; }
+.brand span { color: var(--red); }
+
+nav.links { display: flex; gap: 14px; overflow-x: auto; scrollbar-width: none; }
+nav.links::-webkit-scrollbar { display: none; }
+nav.links a {
+  color: var(--text-muted); text-decoration: none; font-size: 13px; font-weight: 500;
+  transition: color 0.2s; white-space: nowrap;
+}
+nav.links a:hover, nav.links a.active { color: var(--white); }
+
+.lang-toggle {
+  background: var(--bg-card); border: 1px solid var(--border); color: var(--white);
+  font-family: var(--mono); font-size: 12px; padding: 6px 12px; cursor: pointer;
+  border-radius: 4px; transition: border-color 0.2s;
+}
+.lang-toggle:hover { border-color: var(--white); }
+
+/* HERO SECTION */
+.hero { padding: 64px 0 32px; }
+.hero h1 {
+  font-size: clamp(28px, 5vw, 42px); font-weight: 800; color: var(--white);
+  letter-spacing: -1px; line-height: 1.1; margin-bottom: 16px;
+}
+.hero h1 span { color: var(--red); }
+.hero p.lead { color: var(--text-muted); font-size: 16px; max-width: 750px; margin-bottom: 24px; }
+
+.warn {
+  border: 1px solid rgba(255, 51, 51, 0.3); background: var(--red-bg);
+  padding: 14px 18px; border-radius: 6px; color: #ff9999; font-size: 13.5px;
+  margin-bottom: 32px;
+}
+.warn b { color: var(--red); }
+
+/* PROGRESS BAR */
+.progress-box { background: var(--bg-card); border: 1px solid var(--border); padding: 16px; border-radius: 8px; margin-bottom: 48px; }
+.progress-head { display: flex; justify-content: space-between; font-size: 13px; color: var(--text-muted); margin-bottom: 8px; font-family: var(--mono); }
+.progress-head b { color: var(--white); }
+.bar { height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
+.bar span { display: block; height: 100%; width: 0; background: var(--white); transition: width 0.3s ease; }
+.reset { background: none; border: none; color: var(--red); font-size: 12px; cursor: pointer; font-family: var(--mono); }
+
+/* THREAT MODEL GRID */
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-top: 16px; margin-bottom: 24px; }
+.card { border: 1px solid var(--border); background: var(--bg-card); padding: 16px; border-radius: 8px; }
+.card h4 { color: var(--white); font-size: 14px; margin-bottom: 6px; font-family: var(--mono); }
+.card p { font-size: 13px; color: var(--text-muted); }
+
+/* PHASES & STEPS */
+section.phase { padding: 48px 0; border-top: 1px solid var(--border); }
+.phase-tag { font-family: var(--mono); font-size: 11px; color: var(--red); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 6px; }
+.phase h2 { font-size: 24px; font-weight: 700; color: var(--white); margin-bottom: 12px; letter-spacing: -0.5px; }
+.phase .intro { color: var(--text-muted); margin-bottom: 24px; max-width: 750px; }
+h3.sub { color: var(--white); font-size: 17px; margin: 28px 0 10px; font-weight: 600; }
+
+ol.steps { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+ol.steps > li {
+  background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px;
+  padding: 18px 20px; transition: border-color 0.2s;
+}
+ol.steps > li:hover { border-color: var(--border-focus); }
+ol.steps > li.done { border-color: #222; background: #050505; opacity: 0.6; }
+ol.steps > li.done .t { text-decoration: line-through; color: var(--text-muted); }
+
+.step-head { display: flex; gap: 14px; align-items: flex-start; cursor: pointer; }
+.step-head input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.step-head .box {
+  flex: 0 0 auto; margin-top: 3px; width: 18px; height: 18px; border: 2px solid var(--text-muted);
+  border-radius: 4px; display: inline-flex; align-items: center; justify-content: center; transition: all 0.2s;
+}
+.step-head input:checked + .box { background: var(--white); border-color: var(--white); }
+.step-head input:checked + .box::after { content: "✓"; font-size: 12px; color: var(--bg); font-weight: bold; }
+.step-head .t { color: var(--white); font-weight: 600; font-size: 15px; }
+
+.body { margin-top: 12px; padding-left: 32px; font-size: 14px; color: var(--text-muted); }
+.body ul { padding-left: 18px; margin-top: 8px; }
+.body li { margin-bottom: 6px; }
+
+a { color: var(--white); text-decoration: underline; text-underline-offset: 3px; }
+a:hover { color: var(--red); }
+
+code, pre { font-family: var(--mono); font-size: 13px; }
+code { background: #141414; color: #ff8080; padding: 2px 6px; border-radius: 4px; border: 1px solid var(--border); }
+
+.term { margin-top: 12px; background: #050505; border: 1px solid var(--border); border-radius: 6px; overflow: hidden; }
+.term-bar { display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: #111; border-bottom: 1px solid var(--border); font-size: 11px; color: var(--text-muted); font-family: var(--mono); }
+.copy { background: none; border: 1px solid var(--border); color: var(--text-muted); font-family: var(--mono); font-size: 11px; padding: 2px 8px; cursor: pointer; border-radius: 3px; }
+.copy:hover { color: var(--white); border-color: var(--white); }
+.term pre { padding: 12px 16px; color: #aaffaa; overflow-x: auto; line-height: 1.5; }
+
+.note, .danger {
+  margin-top: 12px; padding: 12px 16px; font-size: 13.5px; border-left: 3px solid var(--white);
+  background: rgba(255, 255, 255, 0.03); border-radius: 0 6px 6px 0; color: var(--text);
+}
+.note b { color: var(--white); }
+.danger { border-left-color: var(--red); background: var(--red-bg); color: #ffcccc; }
+.danger b { color: var(--red); }
+
+table.cmp { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 13px; }
+.table-wrap { overflow-x: auto; margin-top: 10px; }
+table.cmp th, table.cmp td { border: 1px solid var(--border); padding: 8px 12px; text-align: left; vertical-align: top; }
+table.cmp th { color: var(--white); background: #141414; font-family: var(--mono); }
+table.cmp td:first-child { color: var(--white); font-weight: 600; white-space: nowrap; }
+
+/* DONATE & FOOTER */
+.donate {
+  margin: 60px 0 20px; background: var(--bg-card); border: 1px solid var(--border);
+  padding: 36px 20px; text-align: center; border-radius: 12px;
+}
+.donate h2 { color: var(--white); font-size: 20px; margin-bottom: 8px; }
+.donate p { color: var(--text-muted); font-size: 14px; margin-bottom: 16px; }
+.btn {
+  display: inline-block; background: var(--white); color: var(--bg); padding: 10px 24px;
+  font-weight: 700; text-decoration: none; border-radius: 6px; font-size: 14px; transition: opacity 0.2s;
+}
+.btn:hover { opacity: 0.9; color: var(--bg); background: var(--white); }
+
+footer { margin-top: 40px; border-top: 1px solid var(--border); padding: 32px 0 48px; font-size: 13px; color: var(--text-muted); text-align: center; }
+footer b { color: var(--white); }
+
+#totop {
+  position: fixed; right: 20px; bottom: 20px; background: var(--bg-card); border: 1px solid var(--border);
+  color: var(--white); font-family: var(--mono); padding: 8px 12px; cursor: pointer; border-radius: 6px; display: none;
+}
+#totop.show { display: block; }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#top">OPSEC<span>.GUIDE</span></a>
+    <nav class="links">
+      <a href="#threat">00_Threat</a>
+      <a href="#physical">01_Hardware</a>
+      <a href="#mobile">02_GrapheneOS</a>
+      <a href="#workstation">03_ThinkPad</a>
+      <a href="#network">04_Network</a>
+      <a href="#rules">05_Rules</a>
+    </nav>
+    <button class="lang-toggle" id="lang-toggle" type="button">[DE / EN]</button>
+  </div>
+</header>
+
+<main class="wrap" id="top">
+
+  <!-- HERO -->
+  <section class="hero">
+    <h1 lang="de">Kompromisslose <span>OpSec</span> &amp; Privacy.</h1>
+    <h1 lang="en">Uncompromising <span>OpSec</span> &amp; Privacy.</h1>
+    
+    <p class="lead" lang="de">Der vollständige, detaillierte Step-by-Step Guide: Bar gekaufte Hardware, GrapheneOS, Coreboot-ThinkPads und isolierte Netzwerke. Clean, minimalistisch, 100% offline.</p>
+    <p class="lead" lang="en">The complete, detailed step-by-step guide: Cash-acquired hardware, GrapheneOS, Coreboot ThinkPads, and isolated networks. Clean, minimalist, 100% offline.</p>
+
+    <div class="warn" lang="de">
+      <b>[DISCLAIMER]:</b> Dieser Guide dient der Privatsphäre, Selbstverteidigung und Bildung. Firmware-Flashen geschieht auf eigenes Risiko.
+    </div>
+    <div class="warn" lang="en">
+      <b>[DISCLAIMER]:</b> This guide is for privacy, self-defense, and educational purposes. Flashing firmware is at your own risk.
+    </div>
+
+    <div class="progress-box">
+      <div class="progress-head">
+        <span>PROGRESS: <b id="prog-count">0/0</b></span>
+        <button class="reset" id="reset" type="button">reset</button>
+      </div>
+      <div class="bar"><span id="prog-bar"></span></div>
+    </div>
+  </section>
+
+  <!-- PHASE 0: THREAT MODEL -->
+  <section class="phase" id="threat">
+    <div class="phase-tag">PHASE 00 // PREFLIGHT</div>
+    <h2 lang="de">Threat Model zuerst</h2>
+    <h2 lang="en">Threat Model First</h2>
+    
+    <p class="intro" lang="de">OpSec ist kein Produkt, sondern ein Prozess. Bevor du irgendetwas kaufst oder flasht, beantworte vier Fragen:</p>
+    <p class="intro" lang="en">OpSec is not a product; it's a process. Before buying or flashing anything, answer four questions:</p>
+
+    <div class="grid" lang="de">
+      <div class="card"><h4>01 // Was schützen?</h4><p>Identität, Standort, Kommunikation, Kontakte, Dateien, Finanzen.</p></div>
+      <div class="card"><h4>02 // Vor wem?</h4><p>Werbe-Tracker, Datenhändler, Stalker, Arbeitgeber, Kriminelle, staatliche Akteure.</p></div>
+      <div class="card"><h4>03 // Wie wahrscheinlich?</h4><p>Massenüberwachung trifft alle. Gezielte Angriffe verlangen mehr Aufwand.</p></div>
+      <div class="card"><h4>04 // Was kostet ein Leak?</h4><p>Von nervig bis existenziell. Das bestimmt deinen Aufwand.</p></div>
+    </div>
+    <div class="grid" lang="en">
+      <div class="card"><h4>01 // What to protect?</h4><p>Identity, location, communication, contacts, files, finances.</p></div>
+      <div class="card"><h4>02 // From whom?</h4><p>Ad trackers, data brokers, stalkers, employers, criminals, state actors.</p></div>
+      <div class="card"><h4>03 // How likely?</h4><p>Mass surveillance affects everyone. Targeted attacks require high effort.</p></div>
+      <div class="card"><h4>04 // Impact of a leak?</h4><p>From annoying to existential. This dictates your countermeasures.</p></div>
+    </div>
+  </section>
+
+  <!-- PHASE 1: PHYSICAL -->
+  <section class="phase" id="physical">
+    <div class="phase-tag">PHASE 01 // PHYSICAL OPSEC</div>
+    <h2 lang="de">Hardware-Anonymisierung</h2>
+    <h2 lang="en">Hardware Anonymization</h2>
+    <p class="intro" lang="de">Jedes Gerät hat eindeutige Kennungen (IMEI, Seriennummer, MAC). Ziel: Keine Verbindung zwischen deiner Identität und der Hardware.</p>
+    <p class="intro" lang="en">Every device has unique identifiers (IMEI, serial, MAC). Goal: Zero connection between your identity and hardware.</p>
+
+    <ol class="steps" lang="de">
+      <li data-step="p1-1">
+        <label class="step-head"><input type="checkbox"><span class="box"></span><span class="t">Google Pixel ausschließlich mit Bargeld im Laden kaufen</span></label>
+        <div class="body">
+          <ul>
+            <li>Keine EC-/Kreditkarte, kein PayPal, kein Online-Shop, keine Lieferadresse.</li>
+            <li>Keine Kundenkarte, kein Bonusprogramm, kein Name auf der Quittung, keine Garantie-Registrierung.</li>
+            <li>Wähle ein unterstütztes Pixel-Modell (siehe <a href="https://grapheneos.org/faq#supported-devices" target="_blank" rel="noopener noreferrer">grapheneos.org/faq</a>).</li>
+            <li>Achte darauf, dass der Bootloader entsperrbar ist (keine gesperrten US-Carrier-Modelle).</li>
+          </ul>
+        </div>
+      </li>
+      <li data-step="p1-2">
+        <label class="step-head"><input type="checkbox"><span class="box"></span><span class="t">Physische Spuren beim Kauf minimieren</span></label>
+        <div class="body">
+          <ul>
+            <li>Nicht direkt am Wohn- oder Arbeitsort kaufen. Dein aktuelles Smartphone zuhause lassen oder ausschalten (Funkzellen-Logs).</li>
+            <li>Bargeld vorher abheben, nicht direkt am Automaten neben dem Laden.</li>
+          </ul>
+        </div>
+      </li>
+      <li data-step="p1-3">
+        <label class="step-head"><input type="checkbox"><span class="box"></span><span class="t">SIM-Karte und Identität entkoppeln</span></label>
+        <div class="body">
+          <p>Die beste anonyme Hardware bringt nichts, wenn du eine SIM mit deinem Namen einlegst (Provider verknüpfen <b>IMEI + IMSI</b> sofort).</p>
+          <ul>
+            <li>Nutze wo legal No-KYC eSIMs oder betreibe das Gerät nur über WLAN / anonyme Hotspots.</li>
+            <li>Niemals die alte SIM-Karte einlegen, auch nicht kurz.</li>
+          </ul>
+        </div>
+      </li>
+    </ol>
+
+    <ol class="steps" lang="en">
+      <li data-step="p1-1">
+        <label class="step-head"><input type="checkbox"><span class="box"></span><span class="t">Buy Google Pixel strictly with cash in a retail store</span></label>
+        <div class="body">
+          <ul>
+            <li>No credit cards, no PayPal, no online stores, no shipping address.</li>
+            <li>No loyalty programs, no name on receipts, no warranty registration.</li>
+            <li>Choose a supported Pixel device (<a href="https://grapheneos.org/faq#supported-devices" target="_blank" rel="noopener noreferrer">grapheneos.org/faq</a>).</li>
+            <li>Ensure the bootloader is unlockable.</li>
+          </ul>
+        </div>
+      </li>
+      <li data-step="p1-2">
+        <label class="step-head"><input type="checkbox"><span class="box"></span><span class="t">Minimize physical traces during purchase</span></label>
+        <div class="body">
+          <ul>
+            <li>Buy far away from home/work. Leave your current phone at home or powered off.</li>
+            <li>Withdraw cash in advance elsewhere.</li>
+          </ul>
+        </div>
+      </li>
+      <li data-step="p1-3">
+        <label class="step-head"><input type="checkbox"><span class="box"></span><span class="t">Decouple SIM card from identity</span></label>
+        <div class="body">
+          <p>Anonymized hardware is useless if you insert a SIM linked to your identity (carriers map <b>IMEI + IMSI</b> instantly).</p>
+          <ul>
+            <li>Use no-KYC data eSIMs where legal or operate strictly via Wi-Fi.</li>
+            <li>Never insert your old SIM card.</li>
+          </ul>
+        </div>
+      </li>
+    </ol>
+  </section>
+
+  <!-- PHASE 2: MOBILE -->
+  <section class="phase" id="mobile">
+    <div class="phase-tag">PHASE 02 // MOBILE HARDENING</div>
+    <h2 lang="de">GrapheneOS flashen</h2>
+    <h2 lang="en">Flash GrapheneOS</h2>
+    <p class="intro" lang="de">Das sicherste mobile Betriebssystem mit harten Exploit-Mitigations und Sandboxing, exklusiv auf Google Pixel.</p>
+    <p class="intro" lang="en">The most secure mobile OS with strict exploit mitigations and sandboxing, exclusively on Google Pixel.</p>
+
+    <ol class="steps" lang="de">
+      <li data-step="p2-1">
+        <label class="step-head"><input type="checkbox"><span class="box"></span><span class="t">Vorbereitung &amp; OEM-Unlocking aktivieren</span></label>
+        <div class="body">
+          <ul>
+            <li>Stock-Android starten, Google-Login überspringen, mit WLAN verbinden und Updates einspielen.</li>
+            <li><code>Einstellungen → Über das Telefon</code> → 7× auf „Build-Nummer“ tippen.</li>
+            <li><code>Einstellungen → System → Entwickleroptionen → OEM-Entsperrung</code> aktivieren.</li>
+          </ul>
+        </div>
+      </li>
+      <li data-step="p2-2">
+        <label class="step-head"><input type="checkbox"><span class="box"></span><span class="t">Bootloader entsperren &amp; GrapheneOS installieren</span></label>
+        <div class="body">
+          <p>Gerät in den Fastboot-Modus versetzen (Power + Leiser) und per USB verbinden.</p>
+          <div class="term">
+            <div class="term-bar"><span>Terminal</span><button class="copy" type="button">copy</button></div>
+<pre>fastboot flashing unlock
+# Offiziellen Web-Installer nutzen unter grapheneos.org/install/web
+# WICHTIG: Nach dem Flashen ZWINGEND den Bootloader wieder sperren:
+fastboot flashing lock</pre>
+          </div>
+          <div class="danger"><b>[ACHTUNG]:</b> Ein offener Bootloader ist ein Sicherheitsrisiko. Nach der Installation immer wieder per <code>fastboot flashing lock</code> sperren!</div>
+        </div>
+      </li>
+    </ol>
+
+    <ol class="steps" lang="en">
+      <li data-step="p2-1">
+        <label class="step-head"><input type="checkbox"><span class="box"></span><span class="t">Preparation &amp; Enable OEM Unlocking</span></label>
+        <div class="body">
+          <ul>
+            <li>Boot stock Android, skip Google login, connect to Wi-Fi, and run updates.</li>
+            <li>Enable OEM unlocking in Developer Options.</li>
+          </ul>
+        </div>
+      </li>
+      <li data-step="p2-2">
+        <label class="step-head"><input type="checkbox"><span class="box"></span><span class="t">Unlock Bootloader &amp; Install
