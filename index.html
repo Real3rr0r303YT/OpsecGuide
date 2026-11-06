@@ -124,6 +124,26 @@ nav.links a:hover, nav.links a.active { color: var(--green); border-color: var(-
   font-family: var(--mono); font-size: 12px; padding: 4px 8px; cursor: pointer; white-space: nowrap;
 }
 .fx-toggle:hover { color: var(--green); border-color: var(--green); }
+.toggles { display: flex; gap: 6px; flex: 0 0 auto; }
+#lang-toggle b { font-weight: 400; padding: 0 2px; }
+#lang-toggle b.on { color: #000; background: var(--green); font-weight: 700; }
+
+/* ---------- LANGUAGE SWITCH ---------- */
+html[lang="de"] body [lang="en"],
+html[lang="en"] body [lang="de"] { display: none !important; }
+
+/* ---------- PROMO BAR ---------- */
+.promo {
+  display: flex; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap;
+  padding: 6px 16px; font-size: 12px; text-align: center;
+  background: var(--red-dark); border-bottom: 1px solid var(--red); color: #ffd0d8;
+}
+.promo a { color: #fff; font-weight: 700; text-decoration-color: var(--red); }
+.promo a:hover { background: var(--red); color: #000; }
+.share-row { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 12px; }
+button.btn { background: none; font-family: var(--mono); font-size: inherit; cursor: pointer; }
+.btn.alt { border-color: var(--red); color: var(--red); box-shadow: 0 0 12px rgba(255,0,51,.25); }
+.btn.alt:hover { background: var(--red); color: #000; box-shadow: 0 0 24px var(--red); }
 
 /* ---------- HERO ---------- */
 .hero { padding: 56px 0 32px; }
@@ -282,21 +302,35 @@ footer p + p { margin-top: 6px; }
 <!-- BOOT SEQUENCE -->
 <div id="boot" aria-hidden="true">
   <pre id="boot-text"></pre>
-  <div class="skip">[ klick / beliebige Taste = skip ]</div>
+  <div class="skip"><span lang="de">[ klick / beliebige Taste = skip ]</span><span lang="en">[ click / any key = skip ]</span></div>
+</div>
+
+<div class="promo">
+  <span lang="de">&#9749; Dieser Guide ist 100&nbsp;% kostenlos &amp; trackerfrei. Unterstütze das Projekt:</span>
+  <span lang="en">&#9749; This guide is 100% free &amp; tracker-free. Support the project:</span>
+  <a href="https://buymeacoffee.com/3rr0r303YT" target="_blank" rel="noopener noreferrer">buymeacoffee.com/3rr0r303YT</a>
 </div>
 
 <header class="top">
   <div class="wrap">
     <a class="brand" href="#top">root@opsec<span class="r">:~#</span></a>
-    <nav class="links" aria-label="Phasen">
+    <nav class="links" aria-label="Phases">
       <a href="#threat">00_threat</a>
       <a href="#phase1">01_physical</a>
       <a href="#phase2">02_mobile</a>
       <a href="#phase3">03_workstation</a>
       <a href="#phase4">04_network</a>
-      <a href="#rules">05_rules</a>
+      <a href="#tails">05_tails</a>
+      <a href="#qubes">06_qubes</a>
+      <a href="#comms">07_comms</a>
+      <a href="#footprint">08_footprint</a>
+      <a href="#emergency">09_emergency</a>
+      <a href="#rules">10_rules</a>
     </nav>
-    <button class="fx-toggle" id="fx-toggle" type="button" title="CRT-Effekte umschalten">[fx:on]</button>
+    <div class="toggles">
+      <button class="fx-toggle" id="lang-toggle" type="button" title="Sprache / Language"><b data-l="de">DE</b>|<b data-l="en">EN</b></button>
+      <button class="fx-toggle" id="fx-toggle" type="button" title="CRT FX">[fx:on]</button>
+    </div>
   </div>
 </header>
 
@@ -313,18 +347,34 @@ footer p + p { margin-top: 6px; }
  ╚═════╝ ╚═╝     ╚══════╝╚══════╝ ╚═════╝     ╚═════╝  ╚═════╝ ╚═╝╚═════╝ ╚══════╝
 </pre>
     <div class="tagline"><span id="typed"></span><span class="cursor" aria-hidden="true"></span></div>
-    <p class="lead">
+    <p class="lead" lang="de">
       Der vollständige Step-by-Step Guide für <strong>Operational Security</strong> &amp; Privacy.
       Von der Hardware, die du bar im Laden kaufst, über ein gehärtetes Smartphone und eine
       Coreboot-Workstation bis zum isolierten Netzwerk-Stack. Keine Tracker. Keine Cookies.
       Keine externen Requests. Diese Seite ist eine einzige HTML-Datei.
     </p>
+    <p class="lead" lang="en">
+      The complete step-by-step guide to <strong>Operational Security</strong> &amp; privacy.
+      From hardware you buy with cash in a store, to a hardened smartphone and a
+      Coreboot workstation, all the way to an isolated network stack. No trackers. No cookies.
+      No external requests. This site is a single HTML file.
+    </p>
 
-    <div class="warn">
+    <div class="warn" lang="de">
       <b>[DISCLAIMER]</b> Dieser Guide dient der Privatsphäre, Selbstverteidigung und Bildung.
       Privatsphäre ist ein Grundrecht, kein Verbrechen. Firmware-Flashen und Bootloader-Unlocks
       können Hardware zerstören (Brick) und Garantien aufheben. Alles auf eigenes Risiko.
       Halte dich an die Gesetze deines Landes.
+      <br><br><b>[REALITY CHECK]</b> 100&nbsp;% unauffindbar gibt es nicht. Jede Schicht in diesem Guide
+      macht dich deutlich schwerer auffindbar, aber ein einziger Fehler im Verhalten kann alles zunichtemachen.
+    </div>
+    <div class="warn" lang="en">
+      <b>[DISCLAIMER]</b> This guide is for privacy, self-defense and education.
+      Privacy is a fundamental right, not a crime. Flashing firmware and unlocking bootloaders
+      can destroy hardware (brick) and void warranties. Everything at your own risk.
+      Follow the laws of your country.
+      <br><br><b>[REALITY CHECK]</b> 100% untraceable does not exist. Every layer in this guide makes you
+      much harder to find, but a single behavioral mistake can undo all of it.
     </div>
 
     <div class="progress-box" aria-live="polite">
@@ -339,69 +389,116 @@ footer p + p { margin-top: 6px; }
   <!-- PHASE 0: THREAT MODEL -->
   <section class="phase" id="threat">
     <div class="phase-tag">PHASE_00 // PREFLIGHT</div>
-    <h2>Threat Model zuerst</h2>
-    <p class="intro">
+    <h2><span lang="de">Threat Model zuerst</span><span lang="en">Threat model first</span></h2>
+    <p class="intro" lang="de">
       OpSec ist kein Produkt, sondern ein Prozess. Bevor du irgendetwas kaufst oder flasht,
       beantworte vier Fragen. Ohne Bedrohungsmodell baust du eine Festung mit offener Hintertür.
     </p>
+    <p class="intro" lang="en">
+      OpSec is not a product, it's a process. Before you buy or flash anything,
+      answer four questions. Without a threat model you're building a fortress with an open back door.
+    </p>
     <div class="grid">
-      <div class="card"><h4>01 // Was schützen?</h4><p>Identität, Standort, Kommunikation, Kontakte, Dateien, Finanzen.</p></div>
-      <div class="card"><h4>02 // Vor wem?</h4><p>Werbe-Tracker, Datenhändler, Stalker, Arbeitgeber, Kriminelle, staatliche Akteure.</p></div>
-      <div class="card"><h4>03 // Wie wahrscheinlich?</h4><p>Massenüberwachung trifft alle. Gezielte Angriffe sind seltener, aber teurer abzuwehren.</p></div>
-      <div class="card"><h4>04 // Was kostet ein Leak?</h4><p>Von nervig (Spam) bis existenziell (Doxxing, physische Gefahr). Danach richtet sich dein Aufwand.</p></div>
+      <div class="card">
+        <h4><span lang="de">01 // Was schützen?</span><span lang="en">01 // Protect what?</span></h4>
+        <p lang="de">Identität, Standort, Kommunikation, Kontakte, Dateien, Finanzen.</p>
+        <p lang="en">Identity, location, communications, contacts, files, finances.</p>
+      </div>
+      <div class="card">
+        <h4><span lang="de">02 // Vor wem?</span><span lang="en">02 // From whom?</span></h4>
+        <p lang="de">Werbe-Tracker, Datenhändler, Stalker, Arbeitgeber, Kriminelle, staatliche Akteure.</p>
+        <p lang="en">Ad trackers, data brokers, stalkers, employers, criminals, state actors.</p>
+      </div>
+      <div class="card">
+        <h4><span lang="de">03 // Wie wahrscheinlich?</span><span lang="en">03 // How likely?</span></h4>
+        <p lang="de">Massenüberwachung trifft alle. Gezielte Angriffe sind seltener, aber teurer abzuwehren.</p>
+        <p lang="en">Mass surveillance hits everyone. Targeted attacks are rarer but costlier to defend against.</p>
+      </div>
+      <div class="card">
+        <h4><span lang="de">04 // Was kostet ein Leak?</span><span lang="en">04 // Cost of a leak?</span></h4>
+        <p lang="de">Von nervig (Spam) bis existenziell (Doxxing, physische Gefahr). Danach richtet sich dein Aufwand.</p>
+        <p lang="en">From annoying (spam) to existential (doxxing, physical danger). Your effort should scale with it.</p>
+      </div>
     </div>
-    <p class="note">Das schwächste Glied bist fast immer du selbst: Wiederverwendete Usernames, dieselbe Schreibweise, Login ohne VPN „nur dieses eine Mal“. Technik ersetzt keine Disziplin.</p>
+    <p class="note" lang="de">Das schwächste Glied bist fast immer du selbst: Wiederverwendete Usernames, dieselbe Schreibweise, Login ohne VPN „nur dieses eine Mal“. Technik ersetzt keine Disziplin.</p>
+    <p class="note" lang="en">The weakest link is almost always you: reused usernames, the same writing style, logging in without VPN "just this once". Tech does not replace discipline.</p>
   </section>
 
   <!-- PHASE 1 -->
   <section class="phase" id="phase1">
     <div class="phase-tag">PHASE_01 // PHYSICAL OPSEC</div>
-    <h2>Hardware-Anonymisierung</h2>
-    <p class="intro">
+    <h2><span lang="de">Hardware-Anonymisierung</span><span lang="en">Hardware anonymization</span></h2>
+    <p class="intro" lang="de">
       Jedes Gerät hat eindeutige Kennungen (IMEI, Seriennummer, MAC-Adressen). Wer die Kaufkette
       kennt, kennt dich. Ziel: Zwischen deiner Identität und deiner Hardware existiert kein Datensatz.
+    </p>
+    <p class="intro" lang="en">
+      Every device has unique identifiers (IMEI, serial number, MAC addresses). Whoever knows the
+      purchase chain knows you. Goal: no record exists linking your identity to your hardware.
     </p>
 
     <ol class="steps">
       <li data-step="p1-1">
-        <label class="step-head"><input type="checkbox"><span class="box"></span><span class="t">Google Pixel (oder dedizierte Hardware) ausschließlich mit Bargeld im Laden kaufen</span></label>
+        <label class="step-head"><input type="checkbox"><span class="box"></span><span class="t"><span lang="de">Google Pixel (oder dedizierte Hardware) ausschließlich mit Bargeld im Laden kaufen</span><span lang="en">Buy a Google Pixel (or dedicated hardware) in a store, with cash only</span></span></label>
         <div class="body">
-          <ul>
+          <ul lang="de">
             <li>Keine EC-/Kreditkarte, kein PayPal, kein Online-Shop, keine Lieferadresse.</li>
             <li>Keine Kundenkarte, kein Bonusprogramm, keinen Namen auf der Quittung, keine Garantie-Registrierung.</li>
             <li>Für GrapheneOS: ein <b>unterstütztes Pixel</b> wählen (aktuelle Liste auf <a href="https://grapheneos.org/faq#supported-devices" target="_blank" rel="noopener noreferrer">grapheneos.org/faq</a>). Neuere Modelle bekommen länger Sicherheitsupdates.</li>
             <li>Beim Kauf auf <b>entsperrbaren Bootloader</b> achten. Carrier-Varianten (z. B. manche US-Verizon-Geräte) sind oft gesperrt.</li>
           </ul>
+          <ul lang="en">
+            <li>No debit/credit card, no PayPal, no online shop, no shipping address.</li>
+            <li>No loyalty card, no rewards program, no name on the receipt, no warranty registration.</li>
+            <li>For GrapheneOS: pick a <b>supported Pixel</b> (current list at <a href="https://grapheneos.org/faq#supported-devices" target="_blank" rel="noopener noreferrer">grapheneos.org/faq</a>). Newer models get security updates longer.</li>
+            <li>Make sure the <b>bootloader is unlockable</b>. Carrier variants (e.g. some US Verizon devices) are often locked.</li>
+          </ul>
         </div>
       </li>
       <li data-step="p1-2">
-        <label class="step-head"><input type="checkbox"><span class="box"></span><span class="t">Physische Spuren beim Kauf minimieren</span></label>
+        <label class="step-head"><input type="checkbox"><span class="box"></span><span class="t"><span lang="de">Physische Spuren beim Kauf minimieren</span><span lang="en">Minimize physical traces during purchase</span></span></label>
         <div class="body">
-          <ul>
+          <ul lang="de">
             <li>Nicht direkt am Wohn- oder Arbeitsort kaufen. Läden haben Kameras, das lässt sich nicht vermeiden, aber Distanz hilft.</li>
             <li>Dein bestehendes Smartphone zuhause lassen oder ausschalten. Funkzellen-Logs verraten, wer wann im Laden war.</li>
             <li>Bargeld vorher abheben, nicht am Automaten direkt neben dem Laden.</li>
           </ul>
+          <ul lang="en">
+            <li>Don't buy right next to where you live or work. Stores have cameras; you can't avoid that, but distance helps.</li>
+            <li>Leave your existing phone at home or switch it off. Cell tower logs reveal who was in the store and when.</li>
+            <li>Withdraw cash beforehand, not at the ATM right next to the store.</li>
+          </ul>
         </div>
       </li>
       <li data-step="p1-3">
-        <label class="step-head"><input type="checkbox"><span class="box"></span><span class="t">SIM-Karte und Identität entkoppeln</span></label>
+        <label class="step-head"><input type="checkbox"><span class="box"></span><span class="t"><span lang="de">SIM-Karte und Identität entkoppeln</span><span lang="en">Decouple SIM card and identity</span></span></label>
         <div class="body">
-          <p>Die beste anonyme Hardware ist wertlos, wenn du eine SIM mit deinem Namen einlegst: Der Provider verknüpft <b>IMEI + IMSI</b> sofort.</p>
-          <ul>
+          <p lang="de">Die beste anonyme Hardware ist wertlos, wenn du eine SIM mit deinem Namen einlegst: Der Provider verknüpft <b>IMEI + IMSI</b> sofort.</p>
+          <p lang="en">The best anonymous hardware is worthless if you insert a SIM registered to your name: the carrier links <b>IMEI + IMSI</b> instantly.</p>
+          <ul lang="de">
             <li>In vielen Ländern (inkl. Deutschland) ist SIM-Registrierung mit Ausweis Pflicht. Prüfe deine lokale Rechtslage.</li>
             <li>Alternative: Gerät nur per WLAN (öffentlich / fremd) oder mit Daten-eSIM von Anbietern ohne KYC betreiben, wo legal.</li>
             <li>Nie die alte SIM einlegen, auch nicht „nur kurz“. Einmal verknüpft, immer verknüpft.</li>
           </ul>
+          <ul lang="en">
+            <li>In many countries (incl. Germany) SIM registration with ID is mandatory. Check your local laws.</li>
+            <li>Alternative: run the device on Wi-Fi only (public / third-party) or with a data eSIM from no-KYC providers, where legal.</li>
+            <li>Never insert your old SIM, not even "just for a moment". Once linked, always linked.</li>
+          </ul>
         </div>
       </li>
       <li data-step="p1-4">
-        <label class="step-head"><input type="checkbox"><span class="box"></span><span class="t">Physische Sicherheit des Geräts</span></label>
+        <label class="step-head"><input type="checkbox"><span class="box"></span><span class="t"><span lang="de">Physische Sicherheit des Geräts</span><span lang="en">Physical device security</span></span></label>
         <div class="body">
-          <ul>
+          <ul lang="de">
             <li>Starkes Passwort/PIN statt Fingerabdruck (biometrische Daten können erzwungen werden).</li>
             <li>Gerät nie unbeaufsichtigt lassen. Ausgeschaltet (BFU-State) ist es am sichersten.</li>
             <li>Faraday-Bag für Situationen, in denen das Gerät garantiert stumm sein muss.</li>
+          </ul>
+          <ul lang="en">
+            <li>Strong password/PIN instead of fingerprint (biometrics can be compelled).</li>
+            <li>Never leave the device unattended. Powered off (BFU state) is the safest state.</li>
+            <li>Faraday bag for situations where the device must be guaranteed silent.</li>
           </ul>
         </div>
       </li>
@@ -411,82 +508,114 @@ footer p + p { margin-top: 6px; }
   <!-- PHASE 2 -->
   <section class="phase" id="phase2">
     <div class="phase-tag">PHASE_02 // MOBILE HARDENING</div>
-    <h2>GrapheneOS flashen</h2>
-    <p class="intro">
+    <h2><span lang="de">GrapheneOS flashen</span><span lang="en">Flash GrapheneOS</span></h2>
+    <p class="intro" lang="de">
       GrapheneOS ist ein auf Privatsphäre und Sicherheit gehärtetes Android ohne Google-Dienste,
       mit Exploit-Mitigations, Verified Boot und granularen Berechtigungen. Es läuft nur auf Pixel-Geräten,
       weil nur diese die nötigen Hardware-Sicherheitsfunktionen bieten.
     </p>
+    <p class="intro" lang="en">
+      GrapheneOS is a privacy- and security-hardened Android without Google services,
+      with exploit mitigations, verified boot and granular permissions. It only runs on Pixel devices
+      because only they provide the required hardware security features.
+    </p>
 
     <ol class="steps">
       <li data-step="p2-1">
-        <label class="step-head"><input type="checkbox"><span class="box"></span><span class="t">Vorbereitung: OEM-Unlocking aktivieren</span></label>
+        <label class="step-head"><input type="checkbox"><span class="box"></span><span class="t"><span lang="de">Vorbereitung: OEM-Unlocking aktivieren</span><span lang="en">Preparation: enable OEM unlocking</span></span></label>
         <div class="body">
-          <ul>
+          <ul lang="de">
             <li>Stock-Android einmal starten, <b>Google-Account-Login überspringen</b>, mit WLAN verbinden (wird für OEM-Unlocking benötigt) und System-Updates einspielen.</li>
             <li><code>Einstellungen → Über das Telefon</code> → 7× auf „Build-Nummer“ tippen.</li>
             <li><code>Einstellungen → System → Entwickleroptionen → OEM-Entsperrung</code> aktivieren.</li>
           </ul>
+          <ul lang="en">
+            <li>Boot stock Android once, <b>skip the Google account login</b>, connect to Wi-Fi (required for OEM unlocking) and install system updates.</li>
+            <li><code>Settings → About phone</code> → tap "Build number" 7×.</li>
+            <li>Enable <code>Settings → System → Developer options → OEM unlocking</code>.</li>
+          </ul>
         </div>
       </li>
       <li data-step="p2-2">
-        <label class="step-head"><input type="checkbox"><span class="box"></span><span class="t">Bootloader entsperren</span></label>
+        <label class="step-head"><input type="checkbox"><span class="box"></span><span class="t"><span lang="de">Bootloader entsperren</span><span lang="en">Unlock the bootloader</span></span></label>
         <div class="body">
-          <p>Gerät ausschalten, dann <b>Power + Leiser</b> halten → Fastboot-Modus. Per USB mit dem Rechner verbinden.</p>
+          <p lang="de">Gerät ausschalten, dann <b>Power + Leiser</b> halten → Fastboot-Modus. Per USB mit dem Rechner verbinden.</p>
+          <p lang="en">Power off the device, then hold <b>Power + Volume Down</b> → fastboot mode. Connect to your computer via USB.</p>
           <div class="term">
             <div class="term-bar"><span class="dots"><span></span><span></span><span></span></span><span>bash: fastboot</span><button class="copy" type="button">copy</button></div>
-<pre><span class="c"># Android platform-tools aktuell halten (fastboot &gt;= aktuelle Version)</span>
+<pre><span class="c"><span lang="de"># Android platform-tools aktuell halten</span><span lang="en"># Keep Android platform-tools up to date</span></span>
 <span class="p">$ </span>fastboot devices
 <span class="p">$ </span>fastboot flashing unlock
-<span class="c"># Am Gerät mit Lautstärke-Tasten bestätigen, mit Power auswählen.</span>
-<span class="c"># ACHTUNG: Das löscht alle Daten auf dem Gerät.</span></pre>
+<span class="c"><span lang="de"># Am Gerät mit Lautstärke-Tasten bestätigen, mit Power auswählen.</span><span lang="en"># Confirm on the device with volume keys, select with power.</span></span>
+<span class="c"><span lang="de"># ACHTUNG: Das löscht alle Daten auf dem Gerät.</span><span lang="en"># WARNING: This wipes all data on the device.</span></span></pre>
           </div>
         </div>
       </li>
       <li data-step="p2-3">
-        <label class="step-head"><input type="checkbox"><span class="box"></span><span class="t">GrapheneOS installieren (Web-Installer oder CLI)</span></label>
+        <label class="step-head"><input type="checkbox"><span class="box"></span><span class="t"><span lang="de">GrapheneOS installieren (Web-Installer oder CLI)</span><span lang="en">Install GrapheneOS (web installer or CLI)</span></span></label>
         <div class="body">
-          <ul>
+          <ul lang="de">
             <li><b>Empfohlen:</b> Offizieller WebUSB-Installer unter <a href="https://grapheneos.org/install/web" target="_blank" rel="noopener noreferrer">grapheneos.org/install/web</a> (Chromium-basierter Browser nötig).</li>
             <li><b>Alternativ:</b> CLI-Anleitung unter <a href="https://grapheneos.org/install/cli" target="_blank" rel="noopener noreferrer">grapheneos.org/install/cli</a> inkl. Signatur-Verifikation der Factory Images.</li>
             <li>Nur von der offiziellen Domain laden. Keine Mirrors, keine „vorkonfigurierten“ Images von Dritten.</li>
           </ul>
+          <ul lang="en">
+            <li><b>Recommended:</b> official WebUSB installer at <a href="https://grapheneos.org/install/web" target="_blank" rel="noopener noreferrer">grapheneos.org/install/web</a> (requires a Chromium-based browser).</li>
+            <li><b>Alternative:</b> CLI guide at <a href="https://grapheneos.org/install/cli" target="_blank" rel="noopener noreferrer">grapheneos.org/install/cli</a> incl. signature verification of the factory images.</li>
+            <li>Only download from the official domain. No mirrors, no "preconfigured" third-party images.</li>
+          </ul>
         </div>
       </li>
       <li data-step="p2-4">
-        <label class="step-head"><input type="checkbox"><span class="box"></span><span class="t">Bootloader wieder sperren (Pflicht!)</span></label>
+        <label class="step-head"><input type="checkbox"><span class="box"></span><span class="t"><span lang="de">Bootloader wieder sperren (Pflicht!)</span><span lang="en">Re-lock the bootloader (mandatory!)</span></span></label>
         <div class="body">
-          <p>Nur ein <b>gesperrter</b> Bootloader aktiviert Verified Boot vollständig. Ein offener Bootloader ist ein offenes Scheunentor für jeden mit physischem Zugriff.</p>
+          <p lang="de">Nur ein <b>gesperrter</b> Bootloader aktiviert Verified Boot vollständig. Ein offener Bootloader ist ein offenes Scheunentor für jeden mit physischem Zugriff.</p>
+          <p lang="en">Only a <b>locked</b> bootloader fully enables verified boot. An unlocked bootloader is a wide-open door for anyone with physical access.</p>
           <div class="term">
             <div class="term-bar"><span class="dots"><span></span><span></span><span></span></span><span>bash: fastboot</span><button class="copy" type="button">copy</button></div>
 <pre><span class="p">$ </span>fastboot flashing lock
-<span class="c"># Am Gerät bestätigen. Danach in GrapheneOS booten.</span>
-<span class="c"># Anschließend: Entwickleroptionen → OEM-Entsperrung wieder DEAKTIVIEREN.</span></pre>
+<span class="c"><span lang="de"># Am Gerät bestätigen. Danach in GrapheneOS booten.</span><span lang="en"># Confirm on the device. Then boot into GrapheneOS.</span></span>
+<span class="c"><span lang="de"># Anschließend: Entwickleroptionen → OEM-Entsperrung wieder DEAKTIVIEREN.</span><span lang="en"># Afterwards: Developer options → DISABLE OEM unlocking again.</span></span></pre>
           </div>
-          <p class="note">Beim Boot erscheint ein gelber Hinweis „Your device is loading a different operating system“. Das ist normal. Prüfe den angezeigten Key-Fingerprint gegen die offizielle Liste und verifiziere die Installation mit der <b>Auditor</b>-App (Hardware-Attestation).</p>
+          <p class="note" lang="de">Beim Boot erscheint ein gelber Hinweis „Your device is loading a different operating system“. Das ist normal. Prüfe den angezeigten Key-Fingerprint gegen die offizielle Liste und verifiziere die Installation mit der <b>Auditor</b>-App (Hardware-Attestation).</p>
+          <p class="note" lang="en">At boot a yellow notice "Your device is loading a different operating system" appears. That's normal. Check the displayed key fingerprint against the official list and verify the install with the <b>Auditor</b> app (hardware attestation).</p>
         </div>
       </li>
       <li data-step="p2-5">
-        <label class="step-head"><input type="checkbox"><span class="box"></span><span class="t">Google Play Services: deaktiviert lassen oder nur in Sandbox</span></label>
+        <label class="step-head"><input type="checkbox"><span class="box"></span><span class="t"><span lang="de">Google Play Services: deaktiviert lassen oder nur in Sandbox</span><span lang="en">Google Play Services: leave disabled or sandbox only</span></span></label>
         <div class="body">
-          <p>GrapheneOS kommt <b>ohne</b> Google Play Services. Das ist der sicherste Zustand. Wenn du bestimmte Apps zwingend brauchst:</p>
-          <ul>
+          <p lang="de">GrapheneOS kommt <b>ohne</b> Google Play Services. Das ist der sicherste Zustand. Wenn du bestimmte Apps zwingend brauchst:</p>
+          <p lang="en">GrapheneOS ships <b>without</b> Google Play Services. That's the safest state. If you absolutely need certain apps:</p>
+          <ul lang="de">
             <li>Separates <b>Nutzerprofil</b> oder <b>Private Space</b> anlegen (<code>Einstellungen → System → Mehrere Nutzer</code>).</li>
             <li>Nur in diesem Profil <b>Sandboxed Google Play</b> über die GrapheneOS-App-Store-App installieren. Es läuft als normale App ohne Sonderrechte.</li>
             <li>Kein Google-Account, wenn vermeidbar. Apps via <b>Aurora Store</b> (anonymer Login) im isolierten Profil beziehen.</li>
             <li>Dein Haupt-/Owner-Profil bleibt komplett Google-frei. Profile teilen keine Daten.</li>
+          </ul>
+          <ul lang="en">
+            <li>Create a separate <b>user profile</b> or <b>Private Space</b> (<code>Settings → System → Multiple users</code>).</li>
+            <li>Install <b>Sandboxed Google Play</b> only in that profile via the GrapheneOS App Store app. It runs as a regular app with no special privileges.</li>
+            <li>No Google account if avoidable. Get apps via <b>Aurora Store</b> (anonymous login) inside the isolated profile.</li>
+            <li>Your main/owner profile stays completely Google-free. Profiles don't share data.</li>
           </ul>
         </div>
       </li>
       <li data-step="p2-6">
         <label class="step-head"><input type="checkbox"><span class="box"></span><span class="t">Post-Install Hardening</span></label>
         <div class="body">
-          <ul>
+          <ul lang="de">
             <li>Starke Passphrase (6+ Wörter oder 8+ zufällige Zeichen). Optional: <b>PIN-Scrambling</b> und <b>Auto-Reboot</b> (z. B. 8–18 h) aktivieren.</li>
             <li>Network- und Sensors-Permission pro App entziehen, wo nicht benötigt. Storage Scopes / Contact Scopes statt Vollzugriff.</li>
             <li><b>USB-C-Port</b> auf „nur Laden“ wenn gesperrt (Standard in GrapheneOS).</li>
             <li>Apps aus <b>F-Droid</b> / <b>Accrescent</b> bevorzugen. Messenger: Signal, Molly, SimpleX.</li>
             <li>WLAN-MAC-Randomisierung pro Verbindung ist Standard. Bluetooth/NFC aus, wenn nicht benutzt.</li>
+          </ul>
+          <ul lang="en">
+            <li>Strong passphrase (6+ words or 8+ random characters). Optional: enable <b>PIN scrambling</b> and <b>auto reboot</b> (e.g. 8–18 h).</li>
+            <li>Revoke Network and Sensors permissions per app where not needed. Use Storage Scopes / Contact Scopes instead of full access.</li>
+            <li><b>USB-C port</b> set to "charging only" when locked (GrapheneOS default).</li>
+            <li>Prefer apps from <b>F-Droid</b> / <b>Accrescent</b>. Messengers: Signal, Molly, SimpleX.</li>
+            <li>Per-connection Wi-Fi MAC randomization is default. Turn Bluetooth/NFC off when not in use.</li>
           </ul>
         </div>
       </li>
@@ -497,98 +626,135 @@ footer p + p { margin-top: 6px; }
   <section class="phase" id="phase3">
     <div class="phase-tag">PHASE_03 // WORKSTATION HARDENING</div>
     <h2>ThinkPad &amp; Coreboot</h2>
-    <p class="intro">
+    <p class="intro" lang="de">
       Proprietäre BIOS/UEFI-Firmware ist eine Blackbox mit höchsten Rechten auf deinem System.
       Ältere ThinkPads lassen sich mit <b>Coreboot</b> (oder dem 100 % freien Ableger <b>Libreboot</b>)
       ausstatten. Darauf ein gehärtetes Linux. Ergebnis: Du kontrollierst den Stack vom ersten
       ausgeführten Byte an.
     </p>
+    <p class="intro" lang="en">
+      Proprietary BIOS/UEFI firmware is a black box with the highest privileges on your system.
+      Older ThinkPads can run <b>Coreboot</b> (or its 100% free downstream <b>Libreboot</b>).
+      On top of that, a hardened Linux. Result: you control the stack from the very first
+      executed byte.
+    </p>
 
     <ol class="steps">
       <li data-step="p3-1">
-        <label class="step-head"><input type="checkbox"><span class="box"></span><span class="t">Gebrauchtes ThinkPad besorgen (bar, privat)</span></label>
+        <label class="step-head"><input type="checkbox"><span class="box"></span><span class="t"><span lang="de">Gebrauchtes ThinkPad besorgen (bar, privat)</span><span lang="en">Get a used ThinkPad (cash, private sale)</span></span></label>
         <div class="body">
-          <p>Gleiche Regeln wie Phase 1: bar bezahlen, Kleinanzeigen-Abholung, kein Versand an deine Adresse.</p>
+          <p lang="de">Gleiche Regeln wie Phase 1: bar bezahlen, Kleinanzeigen-Abholung, kein Versand an deine Adresse.</p>
+          <p lang="en">Same rules as phase 1: pay cash, local pickup from classifieds, no shipping to your address.</p>
           <div class="table-wrap">
           <table class="cmp">
-            <tr><th>Modell</th><th>Coreboot/Libreboot</th><th>Hinweis</th></tr>
-            <tr><td>X230 / T430</td><td>Coreboot, Libreboot</td><td>Klassiker, riesige Community. Externes Flashen nötig.</td></tr>
-            <tr><td>T440p / W541</td><td>Coreboot, Libreboot</td><td>Mehr Leistung, gut dokumentiert.</td></tr>
-            <tr><td>X220 / T420</td><td>Coreboot, Libreboot</td><td>Günstig, alt, aber robust.</td></tr>
-            <tr><td>X200 / T400</td><td>Libreboot</td><td>Komplett ohne Intel ME möglich, aber sehr alt.</td></tr>
+            <tr><th><span lang="de">Modell</span><span lang="en">Model</span></th><th>Coreboot/Libreboot</th><th><span lang="de">Hinweis</span><span lang="en">Notes</span></th></tr>
+            <tr><td>X230 / T430</td><td>Coreboot, Libreboot</td><td><span lang="de">Klassiker, riesige Community. Externes Flashen nötig.</span><span lang="en">Classic, huge community. External flashing required.</span></td></tr>
+            <tr><td>T440p / W541</td><td>Coreboot, Libreboot</td><td><span lang="de">Mehr Leistung, gut dokumentiert.</span><span lang="en">More power, well documented.</span></td></tr>
+            <tr><td>X220 / T420</td><td>Coreboot, Libreboot</td><td><span lang="de">Günstig, alt, aber robust.</span><span lang="en">Cheap, old, but robust.</span></td></tr>
+            <tr><td>X200 / T400</td><td>Libreboot</td><td><span lang="de">Komplett ohne Intel ME möglich, aber sehr alt.</span><span lang="en">Fully ME-free possible, but very old.</span></td></tr>
           </table>
           </div>
-          <p class="note">Die Support-Listen ändern sich. Immer aktuell prüfen: <a href="https://doc.coreboot.org/mainboard/index.html" target="_blank" rel="noopener noreferrer">doc.coreboot.org</a> und <a href="https://libreboot.org/docs/install/" target="_blank" rel="noopener noreferrer">libreboot.org</a>. Alternativ vorgeflashte Geräte von Händlern, die damit werben (dann aber keine anonyme Kaufkette).</p>
+          <p class="note" lang="de">Die Support-Listen ändern sich. Immer aktuell prüfen: <a href="https://doc.coreboot.org/mainboard/index.html" target="_blank" rel="noopener noreferrer">doc.coreboot.org</a> und <a href="https://libreboot.org/docs/install/" target="_blank" rel="noopener noreferrer">libreboot.org</a>. Alternativ vorgeflashte Geräte von Händlern, die damit werben (dann aber keine anonyme Kaufkette).</p>
+          <p class="note" lang="en">Support lists change. Always check the current state: <a href="https://doc.coreboot.org/mainboard/index.html" target="_blank" rel="noopener noreferrer">doc.coreboot.org</a> and <a href="https://libreboot.org/docs/install/" target="_blank" rel="noopener noreferrer">libreboot.org</a>. Alternatively buy pre-flashed devices from vendors that offer them (but then the purchase chain isn't anonymous).</p>
         </div>
       </li>
       <li data-step="p3-2">
-        <label class="step-head"><input type="checkbox"><span class="box"></span><span class="t">Werkzeug für externes Flashen</span></label>
+        <label class="step-head"><input type="checkbox"><span class="box"></span><span class="t"><span lang="de">Werkzeug für externes Flashen</span><span lang="en">Tools for external flashing</span></span></label>
         <div class="body">
-          <ul>
+          <ul lang="de">
             <li><b>CH341A</b>-USB-Programmer (unbedingt die 3,3-V-Variante oder modden; 5 V kann den Chip grillen) oder ein Raspberry Pi mit SPI.</li>
             <li><b>SOIC-8 / SOIC-16 Testclip</b> (Pomona o. ä.), passend zum Flash-Chip deines Modells.</li>
             <li>Ein zweiter Linux-Rechner mit <code>flashrom</code>.</li>
             <li>Akku <b>und</b> CMOS-Batterie vor dem Flashen abklemmen.</li>
           </ul>
+          <ul lang="en">
+            <li><b>CH341A</b> USB programmer (use the 3.3 V variant or mod it; 5 V can fry the chip) or a Raspberry Pi with SPI.</li>
+            <li><b>SOIC-8 / SOIC-16 test clip</b> (Pomona or similar) matching your model's flash chip.</li>
+            <li>A second Linux machine with <code>flashrom</code>.</li>
+            <li>Disconnect the main battery <b>and</b> the CMOS battery before flashing.</li>
+          </ul>
         </div>
       </li>
       <li data-step="p3-3">
-        <label class="step-head"><input type="checkbox"><span class="box"></span><span class="t">Original-BIOS sichern (mehrfach!)</span></label>
+        <label class="step-head"><input type="checkbox"><span class="box"></span><span class="t"><span lang="de">Original-BIOS sichern (mehrfach!)</span><span lang="en">Back up the original BIOS (multiple times!)</span></span></label>
         <div class="body">
-          <p>Ohne Backup kein Weg zurück. Lies den Chip mindestens zweimal und vergleiche die Hashes.</p>
+          <p lang="de">Ohne Backup kein Weg zurück. Lies den Chip mindestens zweimal und vergleiche die Hashes.</p>
+          <p lang="en">No backup, no way back. Read the chip at least twice and compare the hashes.</p>
           <div class="term">
             <div class="term-bar"><span class="dots"><span></span><span></span><span></span></span><span>bash: flashrom</span><button class="copy" type="button">copy</button></div>
-<pre><span class="c"># Chip erkennen</span>
+<pre><span class="c"><span lang="de"># Chip erkennen</span><span lang="en"># Detect the chip</span></span>
 <span class="p">$ </span>sudo flashrom -p ch341a_spi
-<span class="c"># Zweimal auslesen</span>
+<span class="c"><span lang="de"># Zweimal auslesen</span><span lang="en"># Read twice</span></span>
 <span class="p">$ </span>sudo flashrom -p ch341a_spi -r backup1.bin
 <span class="p">$ </span>sudo flashrom -p ch341a_spi -r backup2.bin
-<span class="c"># Hashes MÜSSEN identisch sein, sonst Clip neu ansetzen</span>
+<span class="c"><span lang="de"># Hashes MÜSSEN identisch sein, sonst Clip neu ansetzen</span><span lang="en"># Hashes MUST match, otherwise reseat the clip</span></span>
 <span class="p">$ </span>sha256sum backup1.bin backup2.bin</pre>
           </div>
-          <p class="danger">Backups offline an mehreren Orten speichern. Das Original-Image enthält gerätespezifische Daten (z. B. MAC-Adresse der Netzwerkkarte, Intel ME/GbE-Regionen).</p>
+          <p class="danger" lang="de">Backups offline an mehreren Orten speichern. Das Original-Image enthält gerätespezifische Daten (z. B. MAC-Adresse der Netzwerkkarte, Intel ME/GbE-Regionen).</p>
+          <p class="danger" lang="en">Store backups offline in multiple places. The original image contains device-specific data (e.g. the NIC's MAC address, Intel ME/GbE regions).</p>
         </div>
       </li>
       <li data-step="p3-4">
-        <label class="step-head"><input type="checkbox"><span class="box"></span><span class="t">Coreboot/Libreboot bauen und flashen</span></label>
+        <label class="step-head"><input type="checkbox"><span class="box"></span><span class="t"><span lang="de">Coreboot/Libreboot bauen und flashen</span><span lang="en">Build and flash Coreboot/Libreboot</span></span></label>
         <div class="body">
-          <ul>
+          <ul lang="de">
             <li>Libreboot: fertige ROMs + Anleitung pro Modell. Coreboot: selbst bauen mit <code>make menuconfig</code> (Mainboard wählen, Payload z. B. SeaBIOS, GRUB oder edk2).</li>
             <li>Intel ME mit <b>me_cleaner</b> neutralisieren (bei unterstützten Modellen; Libreboot erledigt das automatisch).</li>
             <li>Für X230/T430 oft geteilter Chip (4 MB + 8 MB): Anleitung exakt befolgen.</li>
           </ul>
+          <ul lang="en">
+            <li>Libreboot: prebuilt ROMs + per-model guide. Coreboot: build yourself with <code>make menuconfig</code> (pick mainboard, payload e.g. SeaBIOS, GRUB or edk2).</li>
+            <li>Neutralize Intel ME with <b>me_cleaner</b> (on supported models; Libreboot does this automatically).</li>
+            <li>X230/T430 often have a split chip (4 MB + 8 MB): follow the guide exactly.</li>
+          </ul>
           <div class="term">
             <div class="term-bar"><span class="dots"><span></span><span></span><span></span></span><span>bash: flash</span><button class="copy" type="button">copy</button></div>
-<pre><span class="c"># Beispiel: fertiges Image schreiben (Dateiname je nach Modell/Chip)</span>
+<pre><span class="c"><span lang="de"># Beispiel: fertiges Image schreiben (Dateiname je nach Modell/Chip)</span><span lang="en"># Example: write the finished image (filename depends on model/chip)</span></span>
 <span class="p">$ </span>sudo flashrom -p ch341a_spi -w coreboot.rom
-<span class="c"># flashrom verifiziert automatisch nach dem Schreiben ("VERIFIED")</span></pre>
+<span class="c"><span lang="de"># flashrom verifiziert automatisch nach dem Schreiben ("VERIFIED")</span><span lang="en"># flashrom verifies automatically after writing ("VERIFIED")</span></span></pre>
           </div>
-          <p class="danger">Falsches Image = Brick. Mit Backup und Programmer ist das reparierbar, ohne nicht. Erst Doku lesen, dann flashen.</p>
+          <p class="danger" lang="de">Falsches Image = Brick. Mit Backup und Programmer ist das reparierbar, ohne nicht. Erst Doku lesen, dann flashen.</p>
+          <p class="danger" lang="en">Wrong image = brick. With a backup and programmer it's recoverable, without them it isn't. Read the docs first, then flash.</p>
         </div>
       </li>
       <li data-step="p3-5">
-        <label class="step-head"><input type="checkbox"><span class="box"></span><span class="t">Gehärtetes Betriebssystem installieren</span></label>
+        <label class="step-head"><input type="checkbox"><span class="box"></span><span class="t"><span lang="de">Gehärtetes Betriebssystem installieren</span><span lang="en">Install a hardened operating system</span></span></label>
         <div class="body">
           <div class="table-wrap">
           <table class="cmp">
-            <tr><th>OS</th><th>Stärke</th><th>Für wen</th></tr>
-            <tr><td>Qubes OS</td><td>Security by Compartmentalization: jede Aufgabe in eigener Xen-VM, Whonix integriert, Wegwerf-VMs.</td><td>Maximale Isolation. Braucht VT-x/VT-d und 16 GB+ RAM.</td></tr>
-            <tr><td>Gentoo (hardened)</td><td>Alles aus Source, Hardened-Profil, minimale Angriffsfläche, volle Kontrolle.</td><td>Erfahrene User mit Zeit.</td></tr>
-            <tr><td>Parrot OS</td><td>Debian-Basis, Privacy- und Pentest-Tools vorinstalliert, AnonSurf.</td><td>Einstieg, Security-Research.</td></tr>
-            <tr><td>Tails</td><td>Amnesisch, Live-USB, alles über Tor.</td><td>Ergänzung für sensible Einzelsessions.</td></tr>
+            <tr><th>OS</th><th><span lang="de">Stärke</span><span lang="en">Strength</span></th><th><span lang="de">Für wen</span><span lang="en">For whom</span></th></tr>
+            <tr><td>Qubes OS</td>
+              <td><span lang="de">Security by Compartmentalization: jede Aufgabe in eigener Xen-VM, Whonix integriert, Wegwerf-VMs.</span><span lang="en">Security by compartmentalization: every task in its own Xen VM, Whonix integrated, disposable VMs.</span></td>
+              <td><span lang="de">Maximale Isolation. Braucht VT-x/VT-d und 16 GB+ RAM.</span><span lang="en">Maximum isolation. Needs VT-x/VT-d and 16 GB+ RAM.</span></td></tr>
+            <tr><td>Gentoo (hardened)</td>
+              <td><span lang="de">Alles aus Source, Hardened-Profil, minimale Angriffsfläche, volle Kontrolle.</span><span lang="en">Everything from source, hardened profile, minimal attack surface, full control.</span></td>
+              <td><span lang="de">Erfahrene User mit Zeit.</span><span lang="en">Experienced users with time.</span></td></tr>
+            <tr><td>Parrot OS</td>
+              <td><span lang="de">Debian-Basis, Privacy- und Pentest-Tools vorinstalliert, AnonSurf.</span><span lang="en">Debian-based, privacy and pentest tools preinstalled, AnonSurf.</span></td>
+              <td><span lang="de">Einstieg, Security-Research.</span><span lang="en">Beginners, security research.</span></td></tr>
+            <tr><td>Tails</td>
+              <td><span lang="de">Amnesisch, Live-USB, alles über Tor.</span><span lang="en">Amnesic, live USB, everything over Tor.</span></td>
+              <td><span lang="de">Ergänzung für sensible Einzelsessions.</span><span lang="en">Add-on for sensitive one-off sessions.</span></td></tr>
           </table>
           </div>
         </div>
       </li>
       <li data-step="p3-6">
-        <label class="step-head"><input type="checkbox"><span class="box"></span><span class="t">Basis-Hardening des Systems</span></label>
+        <label class="step-head"><input type="checkbox"><span class="box"></span><span class="t"><span lang="de">Basis-Hardening des Systems</span><span lang="en">Baseline system hardening</span></span></label>
         <div class="body">
-          <ul>
+          <ul lang="de">
             <li><b>Full Disk Encryption</b> (LUKS2, Argon2id) mit langer Passphrase.</li>
             <li>Firewall standardmäßig auf <code>deny incoming</code>.</li>
             <li>MAC-Randomisierung in NetworkManager aktivieren.</li>
             <li>Webcam/Mikrofon physisch abdecken oder trennen. Bluetooth deaktivieren.</li>
             <li>Regelmäßig updaten. Ungepatchte Software schlägt jede Firmware-Härtung.</li>
+          </ul>
+          <ul lang="en">
+            <li><b>Full disk encryption</b> (LUKS2, Argon2id) with a long passphrase.</li>
+            <li>Firewall defaulting to <code>deny incoming</code>.</li>
+            <li>Enable MAC randomization in NetworkManager.</li>
+            <li>Physically cover or disconnect webcam/microphone. Disable Bluetooth.</li>
+            <li>Update regularly. Unpatched software beats any firmware hardening.</li>
           </ul>
           <div class="term">
             <div class="term-bar"><span class="dots"><span></span><span></span><span></span></span><span>bash: hardening</span><button class="copy" type="button">copy</button></div>
@@ -596,7 +762,7 @@ footer p + p { margin-top: 6px; }
 <span class="p">$ </span>sudo ufw default deny incoming
 <span class="p">$ </span>sudo ufw default allow outgoing
 <span class="p">$ </span>sudo ufw enable
-<span class="c"># MAC-Randomisierung (NetworkManager)</span>
+<span class="c"><span lang="de"># MAC-Randomisierung (NetworkManager)</span><span lang="en"># MAC randomization (NetworkManager)</span></span>
 <span class="p">$ </span>sudo tee /etc/NetworkManager/conf.d/99-random-mac.conf &lt;&lt;'EOF'
 [device]
 wifi.scan-rand-mac-address=yes
@@ -614,90 +780,114 @@ EOF
   <!-- PHASE 4 -->
   <section class="phase" id="phase4">
     <div class="phase-tag">PHASE_04 // NETWORK ISOLATION</div>
-    <h2>Mullvad &amp; Onion-Routing</h2>
-    <p class="intro">
+    <h2><span lang="de">Mullvad &amp; Onion-Routing</span><span lang="en">Mullvad &amp; onion routing</span></h2>
+    <p class="intro" lang="de">
       Dein ISP sieht jede Verbindung. Ein VPN verschiebt dieses Vertrauen zum VPN-Anbieter,
       Tor verteilt es auf drei unabhängige Relays. Kombiniert mit dem konsequenten Verzicht auf
       Big Tech schrumpft deine digitale Spur drastisch.
     </p>
+    <p class="intro" lang="en">
+      Your ISP sees every connection. A VPN shifts that trust to the VPN provider,
+      Tor spreads it across three independent relays. Combined with consistently ditching
+      Big Tech, your digital footprint shrinks drastically.
+    </p>
 
     <ol class="steps">
       <li data-step="p4-1">
-        <label class="step-head"><input type="checkbox"><span class="box"></span><span class="t">Mullvad VPN: anonym bezahlen</span></label>
+        <label class="step-head"><input type="checkbox"><span class="box"></span><span class="t"><span lang="de">Mullvad VPN: anonym bezahlen</span><span lang="en">Mullvad VPN: pay anonymously</span></span></label>
         <div class="body">
-          <ul>
+          <ul lang="de">
             <li>Mullvad braucht <b>keine E-Mail, keinen Namen</b>, nur eine zufällige Kontonummer.</li>
             <li>Bezahlung per <b>Bargeld im Umschlag</b> per Post oder <b>Monero (XMR)</b>. Bitcoin ist pseudonym, nicht anonym.</li>
             <li>No-Logs-Policy, RAM-only-Server und unabhängige Audits. Infos: <a href="https://mullvad.net/" target="_blank" rel="noopener noreferrer">mullvad.net</a>.</li>
             <li>Kontonummer offline notieren, nirgends in der Cloud speichern.</li>
           </ul>
+          <ul lang="en">
+            <li>Mullvad needs <b>no email, no name</b>, just a random account number.</li>
+            <li>Pay with <b>cash in an envelope</b> by mail or with <b>Monero (XMR)</b>. Bitcoin is pseudonymous, not anonymous.</li>
+            <li>No-logs policy, RAM-only servers and independent audits. Info: <a href="https://mullvad.net/" target="_blank" rel="noopener noreferrer">mullvad.net</a>.</li>
+            <li>Write down the account number offline, never store it in the cloud.</li>
+          </ul>
         </div>
       </li>
       <li data-step="p4-2">
-        <label class="step-head"><input type="checkbox"><span class="box"></span><span class="t">Mullvad konfigurieren: Kill-Switch an, Leaks dicht</span></label>
+        <label class="step-head"><input type="checkbox"><span class="box"></span><span class="t"><span lang="de">Mullvad konfigurieren: Kill-Switch an, Leaks dicht</span><span lang="en">Configure Mullvad: kill switch on, leaks sealed</span></span></label>
         <div class="body">
           <div class="term">
             <div class="term-bar"><span class="dots"><span></span><span></span><span></span></span><span>bash: mullvad</span><button class="copy" type="button">copy</button></div>
-<pre><span class="p">$ </span>mullvad account login &lt;KONTONUMMER&gt;
-<span class="p">$ </span>mullvad lockdown-mode set on      <span class="c"># Kein Traffic ohne VPN</span>
+<pre><span class="p">$ </span>mullvad account login &lt;ACCOUNT_NUMBER&gt;
+<span class="p">$ </span>mullvad lockdown-mode set on      <span class="c"><span lang="de"># Kein Traffic ohne VPN</span><span lang="en"># No traffic without VPN</span></span>
 <span class="p">$ </span>mullvad auto-connect set on
 <span class="p">$ </span>mullvad dns set default --block-ads --block-trackers --block-malware
 <span class="p">$ </span>mullvad connect
 <span class="p">$ </span>mullvad status</pre>
           </div>
-          <ul>
+          <ul lang="de">
             <li>WireGuard nutzen, ggf. <b>Multihop</b> und <b>DAITA</b> (Schutz gegen Traffic-Analyse) aktivieren.</li>
             <li>Auf GrapheneOS: Mullvad-App + <code>Einstellungen → Netzwerk → VPN → Durchgehend aktiviertes VPN</code> + <code>Verbindungen ohne VPN blockieren</code>.</li>
             <li>Leak-Test unter <a href="https://mullvad.net/check" target="_blank" rel="noopener noreferrer">mullvad.net/check</a>.</li>
           </ul>
+          <ul lang="en">
+            <li>Use WireGuard, optionally enable <b>multihop</b> and <b>DAITA</b> (defense against traffic analysis).</li>
+            <li>On GrapheneOS: Mullvad app + <code>Settings → Network → VPN → Always-on VPN</code> + <code>Block connections without VPN</code>.</li>
+            <li>Leak test at <a href="https://mullvad.net/check" target="_blank" rel="noopener noreferrer">mullvad.net/check</a>.</li>
+          </ul>
         </div>
       </li>
       <li data-step="p4-3">
-        <label class="step-head"><input type="checkbox"><span class="box"></span><span class="t">Tor Browser verifizieren und nutzen</span></label>
+        <label class="step-head"><input type="checkbox"><span class="box"></span><span class="t"><span lang="de">Tor Browser verifizieren und nutzen</span><span lang="en">Verify and use Tor Browser</span></span></label>
         <div class="body">
-          <p>Nur von <a href="https://www.torproject.org/download/" target="_blank" rel="noopener noreferrer">torproject.org</a> laden und die Signatur prüfen. Auf Android: offizieller Tor Browser für Android.</p>
+          <p lang="de">Nur von <a href="https://www.torproject.org/download/" target="_blank" rel="noopener noreferrer">torproject.org</a> laden und die Signatur prüfen. Auf Android: offizieller Tor Browser für Android.</p>
+          <p lang="en">Only download from <a href="https://www.torproject.org/download/" target="_blank" rel="noopener noreferrer">torproject.org</a> and verify the signature. On Android: the official Tor Browser for Android.</p>
           <div class="term">
             <div class="term-bar"><span class="dots"><span></span><span></span><span></span></span><span>bash: gpg</span><button class="copy" type="button">copy</button></div>
-<pre><span class="c"># Signing-Key des Tor Projects holen</span>
+<pre><span class="c"><span lang="de"># Signing-Key des Tor Projects holen</span><span lang="en"># Fetch the Tor Project signing key</span></span>
 <span class="p">$ </span>gpg --auto-key-locate nodefault,wkd --locate-keys torbrowser@torproject.org
-<span class="c"># Signatur prüfen ("Good signature" erwartet)</span>
+<span class="c"><span lang="de"># Signatur prüfen ("Good signature" erwartet)</span><span lang="en"># Verify signature ("Good signature" expected)</span></span>
 <span class="p">$ </span>gpg --verify tor-browser-*.tar.xz.asc tor-browser-*.tar.xz</pre>
           </div>
-          <ul>
+          <ul lang="de">
             <li>Security Level auf <b>„Safest“</b> für sensible Sessions (deaktiviert JavaScript).</li>
             <li>Fenstergröße nicht ändern (Letterboxing), keine Add-ons installieren: Beides macht dich fingerprintbar.</li>
             <li>Nie mit echten Accounts einloggen. Tor-Identität und Klar-Identität strikt trennen.</li>
             <li>Für systemweites Tor: <b>Whonix</b> (in Qubes integriert) statt selbstgebastelter Proxy-Configs.</li>
           </ul>
+          <ul lang="en">
+            <li>Set security level to <b>"Safest"</b> for sensitive sessions (disables JavaScript).</li>
+            <li>Don't resize the window (letterboxing), don't install add-ons: both make you fingerprintable.</li>
+            <li>Never log in with real accounts. Keep Tor identity and real identity strictly separate.</li>
+            <li>For system-wide Tor: <b>Whonix</b> (integrated in Qubes) instead of DIY proxy configs.</li>
+          </ul>
         </div>
       </li>
       <li data-step="p4-4">
-        <label class="step-head"><input type="checkbox"><span class="box"></span><span class="t">I2P für interne, dezentrale Dienste</span></label>
+        <label class="step-head"><input type="checkbox"><span class="box"></span><span class="t"><span lang="de">I2P für interne, dezentrale Dienste</span><span lang="en">I2P for internal, decentralized services</span></span></label>
         <div class="body">
-          <p>I2P ist ein eigenes, vollständig dezentrales Overlay-Netz (Garlic Routing), optimiert für Dienste <i>innerhalb</i> des Netzes (Eepsites, Torrents, Messaging). Kein Ersatz für Tor beim Surfen im Clearnet.</p>
+          <p lang="de">I2P ist ein eigenes, vollständig dezentrales Overlay-Netz (Garlic Routing), optimiert für Dienste <i>innerhalb</i> des Netzes (Eepsites, Torrents, Messaging). Kein Ersatz für Tor beim Surfen im Clearnet.</p>
+          <p lang="en">I2P is a separate, fully decentralized overlay network (garlic routing), optimized for services <i>inside</i> the network (eepsites, torrents, messaging). Not a replacement for Tor when browsing the clearnet.</p>
           <div class="term">
             <div class="term-bar"><span class="dots"><span></span><span></span><span></span></span><span>bash: i2pd</span><button class="copy" type="button">copy</button></div>
 <pre><span class="c"># Debian/Parrot</span>
 <span class="p">$ </span>sudo apt install i2pd
 <span class="p">$ </span>sudo systemctl enable --now i2pd
-<span class="c"># Web-Konsole: http://127.0.0.1:7070  |  HTTP-Proxy: 127.0.0.1:4444</span></pre>
+<span class="c"><span lang="de"># Web-Konsole: http://127.0.0.1:7070  |  HTTP-Proxy: 127.0.0.1:4444</span><span lang="en"># Web console: http://127.0.0.1:7070  |  HTTP proxy: 127.0.0.1:4444</span></span></pre>
           </div>
         </div>
       </li>
       <li data-step="p4-5">
-        <label class="step-head"><input type="checkbox"><span class="box"></span><span class="t">Big Tech &amp; zentrale Clouds konsequent ersetzen</span></label>
+        <label class="step-head"><input type="checkbox"><span class="box"></span><span class="t"><span lang="de">Big Tech &amp; zentrale Clouds konsequent ersetzen</span><span lang="en">Consistently replace Big Tech &amp; centralized clouds</span></span></label>
         <div class="body">
           <div class="table-wrap">
           <table class="cmp">
-            <tr><th>Statt</th><th>Nutze</th></tr>
-            <tr><td>Gmail / Outlook</td><td>Proton Mail, Tuta (über Tor/VPN registriert)</td></tr>
+            <tr><th><span lang="de">Statt</span><span lang="en">Instead of</span></th><th><span lang="de">Nutze</span><span lang="en">Use</span></th></tr>
+            <tr><td>Gmail / Outlook</td><td><span lang="de">Proton Mail, Tuta (über Tor/VPN registriert)</span><span lang="en">Proton Mail, Tuta (registered via Tor/VPN)</span></td></tr>
             <tr><td>WhatsApp / Messenger</td><td>Signal, Molly, SimpleX, Session</td></tr>
             <tr><td>Google Search</td><td>DuckDuckGo, Brave Search, SearXNG (self-hosted)</td></tr>
             <tr><td>Chrome</td><td>Tor Browser, Mullvad Browser, LibreWolf</td></tr>
-            <tr><td>Google Drive / iCloud</td><td>Lokale Backups mit VeraCrypt/LUKS, Syncthing, Nextcloud (self-hosted)</td></tr>
+            <tr><td>Google Drive / iCloud</td><td><span lang="de">Lokale Backups mit VeraCrypt/LUKS, Syncthing, Nextcloud (self-hosted)</span><span lang="en">Local backups with VeraCrypt/LUKS, Syncthing, Nextcloud (self-hosted)</span></td></tr>
             <tr><td>Google Maps</td><td>Organic Maps, OsmAnd (offline)</td></tr>
-            <tr><td>Passwort im Browser</td><td>KeePassXC / KeePassDX (lokal, offline)</td></tr>
-            <tr><td>Google Authenticator</td><td>Aegis, Hardware-Keys (FIDO2)</td></tr>
+            <tr><td><span lang="de">Passwort im Browser</span><span lang="en">Browser password store</span></td><td><span lang="de">KeePassXC / KeePassDX (lokal, offline)</span><span lang="en">KeePassXC / KeePassDX (local, offline)</span></td></tr>
+            <tr><td>Google Authenticator</td><td><span lang="de">Aegis, Hardware-Keys (FIDO2)</span><span lang="en">Aegis, hardware keys (FIDO2)</span></td></tr>
           </table>
           </div>
         </div>
@@ -705,40 +895,398 @@ EOF
     </ol>
   </section>
 
+  <!-- PHASE 5: TAILS -->
+  <section class="phase" id="tails">
+    <div class="phase-tag">PHASE_05 // AMNESIC OS</div>
+    <h2>Tails OS</h2>
+    <p class="intro" lang="de">
+      Tails (The Amnesic Incognito Live System) startet vom USB-Stick, leitet <b>jeden</b> Netzwerk-Traffic
+      durch Tor und vergisst beim Herunterfahren alles. Kein Eintrag auf der Festplatte, kein Verlauf,
+      keine Spuren. Ideal für sensible Einzelsessions, auch auf fremder Hardware.
+    </p>
+    <p class="intro" lang="en">
+      Tails (The Amnesic Incognito Live System) boots from a USB stick, routes <b>all</b> network traffic
+      through Tor and forgets everything at shutdown. Nothing on the hard drive, no history,
+      no traces. Ideal for sensitive one-off sessions, even on someone else's hardware.
+    </p>
+
+    <ol class="steps">
+      <li data-step="t-1">
+        <label class="step-head"><input type="checkbox"><span class="box"></span><span class="t"><span lang="de">Hardware vorbereiten</span><span lang="en">Prepare hardware</span></span></label>
+        <div class="body">
+          <ul lang="de">
+            <li>USB-Stick mit <b>mind. 8 GB</b>, bar gekauft, ausschließlich für Tails benutzt.</li>
+            <li>64-bit x86-Rechner (Intel/AMD). Apple-Silicon-Macs und ARM werden nicht unterstützt.</li>
+            <li>Ideal: dein Coreboot-ThinkPad aus Phase 3.</li>
+          </ul>
+          <ul lang="en">
+            <li>USB stick with <b>at least 8 GB</b>, bought with cash, used for Tails only.</li>
+            <li>64-bit x86 computer (Intel/AMD). Apple Silicon Macs and ARM are not supported.</li>
+            <li>Ideal: your Coreboot ThinkPad from phase 3.</li>
+          </ul>
+        </div>
+      </li>
+      <li data-step="t-2">
+        <label class="step-head"><input type="checkbox"><span class="box"></span><span class="t"><span lang="de">Image herunterladen und verifizieren</span><span lang="en">Download and verify the image</span></span></label>
+        <div class="body">
+          <p lang="de">Nur von <a href="https://tails.net/install/" target="_blank" rel="noopener noreferrer">tails.net/install</a> (am besten bereits über Tor Browser). Das USB-Image (<code>.img</code>) mit dem OpenPGP-Signing-Key prüfen.</p>
+          <p lang="en">Only from <a href="https://tails.net/install/" target="_blank" rel="noopener noreferrer">tails.net/install</a> (ideally already via Tor Browser). Verify the USB image (<code>.img</code>) with the OpenPGP signing key.</p>
+          <div class="term">
+            <div class="term-bar"><span class="dots"><span></span><span></span><span></span></span><span>bash: gpg</span><button class="copy" type="button">copy</button></div>
+<pre><span class="c"><span lang="de"># Signing-Key von tails.net importieren</span><span lang="en"># Import the signing key from tails.net</span></span>
+<span class="p">$ </span>gpg --import tails-signing.key
+<span class="c"><span lang="de"># Signatur prüfen ("Good signature from Tails developers")</span><span lang="en"># Verify signature ("Good signature from Tails developers")</span></span>
+<span class="p">$ </span>gpg --verify tails-amd64-*.img.sig tails-amd64-*.img</pre>
+          </div>
+        </div>
+      </li>
+      <li data-step="t-3">
+        <label class="step-head"><input type="checkbox"><span class="box"></span><span class="t"><span lang="de">Auf USB-Stick schreiben</span><span lang="en">Write to the USB stick</span></span></label>
+        <div class="body">
+          <div class="term">
+            <div class="term-bar"><span class="dots"><span></span><span></span><span></span></span><span>bash: dd</span><button class="copy" type="button">copy</button></div>
+<pre><span class="c"><span lang="de"># Richtiges Gerät finden. FALSCHES GERÄT = DATEN WEG.</span><span lang="en"># Find the right device. WRONG DEVICE = DATA GONE.</span></span>
+<span class="p">$ </span>lsblk
+<span class="p">$ </span>sudo dd if=tails-amd64-*.img of=/dev/sdX bs=16M oflag=direct status=progress
+<span class="p">$ </span>sync</pre>
+          </div>
+          <p class="note" lang="de">Unter Windows/macOS: balenaEtcher oder die offizielle Anleitung auf tails.net. Tails-Updates danach direkt in Tails per Tails Upgrader.</p>
+          <p class="note" lang="en">On Windows/macOS: balenaEtcher or the official guide on tails.net. Afterwards update Tails directly from within Tails via Tails Upgrader.</p>
+        </div>
+      </li>
+      <li data-step="t-4">
+        <label class="step-head"><input type="checkbox"><span class="box"></span><span class="t"><span lang="de">Booten, Welcome Screen und Tor-Verbindung</span><span lang="en">Boot, Welcome Screen and Tor connection</span></span></label>
+        <div class="body">
+          <ul lang="de">
+            <li>Boot-Menü (ThinkPad: <code>F12</code>) → USB wählen.</li>
+            <li>Welcome Screen: <b>MAC Address Anonymization</b> AN lassen (Standard). Admin-Passwort nur setzen, wenn du es für diese Session brauchst.</li>
+            <li>Tor-Verbindung: Wenn Tor-Nutzung auffallen könnte oder blockiert ist, <b>Bridges</b> (obfs4 / Snowflake) verwenden: „Hide to my local network that I'm connecting to Tor“.</li>
+          </ul>
+          <ul lang="en">
+            <li>Boot menu (ThinkPad: <code>F12</code>) → choose USB.</li>
+            <li>Welcome Screen: leave <b>MAC Address Anonymization</b> ON (default). Only set an admin password if you need it for this session.</li>
+            <li>Tor connection: if Tor use could stand out or is blocked, use <b>bridges</b> (obfs4 / Snowflake): "Hide to my local network that I'm connecting to Tor".</li>
+          </ul>
+        </div>
+      </li>
+      <li data-step="t-5">
+        <label class="step-head"><input type="checkbox"><span class="box"></span><span class="t"><span lang="de">Persistent Storage (optional, verschlüsselt)</span><span lang="en">Persistent Storage (optional, encrypted)</span></span></label>
+        <div class="body">
+          <p lang="de">Wenn du Daten zwischen Sessions behalten willst: <code>Applications → Tails → Persistent Storage</code>. Mit LUKS verschlüsselt, starke Passphrase. Nur aktivieren, was du wirklich brauchst (z. B. GnuPG, KeePassXC-Datenbank, Bridges, Electrum).</p>
+          <p lang="en">If you want to keep data between sessions: <code>Applications → Tails → Persistent Storage</code>. LUKS-encrypted, strong passphrase. Only enable what you really need (e.g. GnuPG, KeePassXC database, bridges, Electrum).</p>
+          <p class="danger" lang="de">Jede gespeicherte Datei ist eine potenzielle Spur. Maximale Amnesie = kein Persistent Storage.</p>
+          <p class="danger" lang="en">Every saved file is a potential trace. Maximum amnesia = no Persistent Storage.</p>
+        </div>
+      </li>
+      <li data-step="t-6">
+        <label class="step-head"><input type="checkbox"><span class="box"></span><span class="t"><span lang="de">Tails-Verhaltensregeln</span><span lang="en">Tails rules of conduct</span></span></label>
+        <div class="body">
+          <ul lang="de">
+            <li>Nie anonyme und echte Identität in derselben Tails-Session mischen. Für jede Identität neu booten.</li>
+            <li>Dateien vor dem Upload mit dem vorinstallierten <b>Metadata Cleaner</b> säubern.</li>
+            <li>Tails schützt nicht vor kompromittierter Hardware (Keylogger, manipulierte Firmware) und nicht vor deinem Verhalten.</li>
+            <li>Immer sofort updaten. Eine alte Tails-Version ist eine unsichere Tails-Version.</li>
+          </ul>
+          <ul lang="en">
+            <li>Never mix anonymous and real identity in the same Tails session. Reboot for each identity.</li>
+            <li>Clean files before uploading with the preinstalled <b>Metadata Cleaner</b>.</li>
+            <li>Tails does not protect against compromised hardware (keyloggers, tampered firmware) or against your own behavior.</li>
+            <li>Always update right away. An old Tails version is an insecure Tails version.</li>
+          </ul>
+        </div>
+      </li>
+    </ol>
+  </section>
+
+  <!-- PHASE 6: QUBES + WHONIX -->
+  <section class="phase" id="qubes">
+    <div class="phase-tag">PHASE_06 // COMPARTMENTALIZATION</div>
+    <h2>Qubes OS &amp; Whonix</h2>
+    <p class="intro" lang="de">
+      Tails ist für Einzelsessions, Qubes OS für den Alltag. Qubes trennt dein Leben in isolierte VMs
+      („Qubes“): Wird eine kompromittiert, bleiben die anderen sicher. Whonix ist darin integriert und
+      zwingt den kompletten Traffic einer VM durch Tor, ohne dass sie deine echte IP überhaupt kennt.
+    </p>
+    <p class="intro" lang="en">
+      Tails is for one-off sessions, Qubes OS is for daily use. Qubes splits your life into isolated VMs
+      ("qubes"): if one is compromised, the others stay safe. Whonix is integrated and forces all of a
+      VM's traffic through Tor, without that VM ever knowing your real IP.
+    </p>
+
+    <ol class="steps">
+      <li data-step="q-1">
+        <label class="step-head"><input type="checkbox"><span class="box"></span><span class="t"><span lang="de">Qubes OS verifizieren und installieren</span><span lang="en">Verify and install Qubes OS</span></span></label>
+        <div class="body">
+          <ul lang="de">
+            <li>Download von <a href="https://www.qubes-os.org/downloads/" target="_blank" rel="noopener noreferrer">qubes-os.org/downloads</a>, Signatur gegen den <b>Qubes Master Signing Key</b> prüfen.</li>
+            <li>Hardware: VT-x + VT-d (IOMMU), 16 GB+ RAM, SSD. Kompatibilität in der <a href="https://www.qubes-os.org/hcl/" target="_blank" rel="noopener noreferrer">HCL</a> checken.</li>
+            <li>Bei der Installation: Full-Disk-Encryption ist Pflicht, Whonix-Qubes mit installieren.</li>
+          </ul>
+          <ul lang="en">
+            <li>Download from <a href="https://www.qubes-os.org/downloads/" target="_blank" rel="noopener noreferrer">qubes-os.org/downloads</a>, verify the signature against the <b>Qubes Master Signing Key</b>.</li>
+            <li>Hardware: VT-x + VT-d (IOMMU), 16 GB+ RAM, SSD. Check compatibility in the <a href="https://www.qubes-os.org/hcl/" target="_blank" rel="noopener noreferrer">HCL</a>.</li>
+            <li>During install: full disk encryption is mandatory, install the Whonix qubes as well.</li>
+          </ul>
+        </div>
+      </li>
+      <li data-step="q-2">
+        <label class="step-head"><input type="checkbox"><span class="box"></span><span class="t"><span lang="de">Deine Qube-Struktur planen</span><span lang="en">Plan your qube layout</span></span></label>
+        <div class="body">
+          <div class="table-wrap">
+          <table class="cmp">
+            <tr><th>Qube</th><th><span lang="de">Netz</span><span lang="en">Network</span></th><th><span lang="de">Zweck</span><span lang="en">Purpose</span></th></tr>
+            <tr><td>vault</td><td><span lang="de">keins</span><span lang="en">none</span></td><td><span lang="de">KeePassXC, GPG-Keys (Split-GPG), Seeds. Niemals online.</span><span lang="en">KeePassXC, GPG keys (Split GPG), seeds. Never online.</span></td></tr>
+            <tr><td>personal</td><td>sys-firewall → Mullvad</td><td><span lang="de">Klar-Identität, Banking, Behörden.</span><span lang="en">Real identity, banking, government.</span></td></tr>
+            <tr><td>anon</td><td>sys-whonix</td><td><span lang="de">Anonyme Identität, nur über Tor.</span><span lang="en">Anonymous identity, Tor only.</span></td></tr>
+            <tr><td>disp-*</td><td><span lang="de">variabel</span><span lang="en">varies</span></td><td><span lang="de">Disposable: unbekannte PDFs, Links, USB-Sticks öffnen. Wird danach gelöscht.</span><span lang="en">Disposable: open unknown PDFs, links, USB sticks. Destroyed afterwards.</span></td></tr>
+          </table>
+          </div>
+        </div>
+      </li>
+      <li data-step="q-3">
+        <label class="step-head"><input type="checkbox"><span class="box"></span><span class="t"><span lang="de">Mullvad in eigener ProxyVM, Whonix für Tor</span><span lang="en">Mullvad in its own ProxyVM, Whonix for Tor</span></span></label>
+        <div class="body">
+          <p lang="de">Mullvad-WireGuard in einem eigenen <code>sys-vpn</code>-Qube betreiben und als NetVM für deine Clearnet-Qubes setzen. Anonyme Qubes laufen über <code>sys-whonix</code>. So kann keine App „versehentlich“ an der Tunnel-Kette vorbei.</p>
+          <p lang="en">Run Mullvad WireGuard in its own <code>sys-vpn</code> qube and set it as NetVM for your clearnet qubes. Anonymous qubes go through <code>sys-whonix</code>. That way no app can "accidentally" bypass the tunnel chain.</p>
+          <div class="term">
+            <div class="term-bar"><span class="dots"><span></span><span></span><span></span></span><span>dom0</span><button class="copy" type="button">copy</button></div>
+<pre><span class="c"><span lang="de"># dom0 aktualisieren</span><span lang="en"># Update dom0</span></span>
+<span class="p">$ </span>sudo qubes-dom0-update
+<span class="c"><span lang="de"># NetVM eines Qubes setzen</span><span lang="en"># Set a qube's NetVM</span></span>
+<span class="p">$ </span>qvm-prefs personal netvm sys-vpn
+<span class="p">$ </span>qvm-prefs anon netvm sys-whonix
+<span class="p">$ </span>qvm-prefs vault netvm ''</pre>
+          </div>
+        </div>
+      </li>
+    </ol>
+  </section>
+
+  <!-- PHASE 7: COMMS -->
+  <section class="phase" id="comms">
+    <div class="phase-tag">PHASE_07 // COMMS &amp; IDENTITY</div>
+    <h2><span lang="de">Kommunikation &amp; Personas</span><span lang="en">Communications &amp; personas</span></h2>
+    <p class="intro" lang="de">Verschlüsselung schützt Inhalte. OpSec schützt auch die Metadaten: wer, wann, mit wem, von wo.</p>
+    <p class="intro" lang="en">Encryption protects content. OpSec also protects metadata: who, when, with whom, from where.</p>
+
+    <ol class="steps">
+      <li data-step="c-1">
+        <label class="step-head"><input type="checkbox"><span class="box"></span><span class="t"><span lang="de">Messenger richtig wählen und konfigurieren</span><span lang="en">Choose and configure messengers properly</span></span></label>
+        <div class="body">
+          <ul lang="de">
+            <li><b>SimpleX Chat:</b> keine Telefonnummer, keine User-ID. Beste Wahl für anonyme Kontakte.</li>
+            <li><b>Signal / Molly:</b> starke Verschlüsselung, aber Registrierung braucht eine Nummer. Username setzen und <code>Datenschutz → Telefonnummer → Wer kann mich finden: Niemand</code>.</li>
+            <li>Verschwindende Nachrichten als Standard aktivieren. Sicherheitsnummern mit Kontakten persönlich verifizieren.</li>
+          </ul>
+          <ul lang="en">
+            <li><b>SimpleX Chat:</b> no phone number, no user ID. Best choice for anonymous contacts.</li>
+            <li><b>Signal / Molly:</b> strong encryption, but registration requires a number. Set a username and <code>Privacy → Phone number → Who can find me: Nobody</code>.</li>
+            <li>Enable disappearing messages by default. Verify safety numbers with contacts in person.</li>
+          </ul>
+        </div>
+      </li>
+      <li data-step="c-2">
+        <label class="step-head"><input type="checkbox"><span class="box"></span><span class="t"><span lang="de">E-Mail: Aliase und PGP</span><span lang="en">Email: aliases and PGP</span></span></label>
+        <div class="body">
+          <ul lang="de">
+            <li>Pro Dienst ein eigener Alias (SimpleLogin, addy.io). Leakt einer, weißt du, wer es war, und löschst ihn.</li>
+            <li>Postfach über Tor/VPN anlegen, nie mit deiner Telefonnummer verifizieren.</li>
+            <li>Für sensible Mails PGP: Schlüssel im Vault-Qube bzw. Tails Persistent Storage.</li>
+          </ul>
+          <ul lang="en">
+            <li>One alias per service (SimpleLogin, addy.io). If one leaks, you know who did it and delete it.</li>
+            <li>Create the mailbox over Tor/VPN, never verify it with your phone number.</li>
+            <li>PGP for sensitive mail: keys in the vault qube or Tails Persistent Storage.</li>
+          </ul>
+          <div class="term">
+            <div class="term-bar"><span class="dots"><span></span><span></span><span></span></span><span>bash: gpg</span><button class="copy" type="button">copy</button></div>
+<pre><span class="p">$ </span>gpg --full-generate-key        <span class="c"># ed25519 / cv25519</span>
+<span class="p">$ </span>gpg --armor --export &lt;KEY_ID&gt; &gt; pubkey.asc</pre>
+          </div>
+        </div>
+      </li>
+      <li data-step="c-3">
+        <label class="step-head"><input type="checkbox"><span class="box"></span><span class="t"><span lang="de">Personas sauber trennen</span><span lang="en">Keep personas strictly separate</span></span></label>
+        <div class="body">
+          <ul lang="de">
+            <li>Jede Persona: eigener Name, eigene Mail, eigener Messenger, eigenes Gerät/Qube, eigene Online-Zeiten.</li>
+            <li>Stilometrie: Schreibstil, Emojis, Tippfehler und Lieblingswörter identifizieren dich. Bewusst anders schreiben.</li>
+            <li>Kein Foto, keine Stimme, keine Insider-Infos, die nur du kennen kannst.</li>
+          </ul>
+          <ul lang="en">
+            <li>Each persona: its own name, email, messenger, device/qube and active hours.</li>
+            <li>Stylometry: writing style, emojis, typos and favorite words identify you. Deliberately write differently.</li>
+            <li>No photos, no voice, no insider info only you could know.</li>
+          </ul>
+        </div>
+      </li>
+    </ol>
+  </section>
+
+  <!-- PHASE 8: FOOTPRINT -->
+  <section class="phase" id="footprint">
+    <div class="phase-tag">PHASE_08 // FOOTPRINT WIPE</div>
+    <h2><span lang="de">Digitale Spuren löschen &amp; anonym bezahlen</span><span lang="en">Wipe your footprint &amp; pay anonymously</span></h2>
+    <p class="intro" lang="de">Das beste neue Setup hilft wenig, wenn dein altes Ich noch überall im Netz steht.</p>
+    <p class="intro" lang="en">The best new setup doesn't help much if your old self is still all over the internet.</p>
+
+    <ol class="steps">
+      <li data-step="f-1">
+        <label class="step-head"><input type="checkbox"><span class="box"></span><span class="t"><span lang="de">Selbst-OSINT: Was weiß das Netz über dich?</span><span lang="en">Self-OSINT: what does the web know about you?</span></span></label>
+        <div class="body">
+          <ul lang="de">
+            <li>Deinen Namen, Usernames, Mails und Telefonnummer in mehreren Suchmaschinen suchen.</li>
+            <li>Rückwärts-Bildersuche mit deinen Profilbildern.</li>
+            <li>Mail-Adressen auf <a href="https://haveibeenpwned.com/" target="_blank" rel="noopener noreferrer">haveibeenpwned.com</a> prüfen.</li>
+          </ul>
+          <ul lang="en">
+            <li>Search your name, usernames, emails and phone number in several search engines.</li>
+            <li>Reverse image search your profile pictures.</li>
+            <li>Check your email addresses on <a href="https://haveibeenpwned.com/" target="_blank" rel="noopener noreferrer">haveibeenpwned.com</a>.</li>
+          </ul>
+        </div>
+      </li>
+      <li data-step="f-2">
+        <label class="step-head"><input type="checkbox"><span class="box"></span><span class="t"><span lang="de">Alte Accounts löschen, DSGVO nutzen</span><span lang="en">Delete old accounts, use GDPR</span></span></label>
+        <div class="body">
+          <ul lang="de">
+            <li>Alte Accounts nicht nur verlassen, sondern <b>löschen</b>. Vorher Daten ändern/leeren.</li>
+            <li>In der EU: Auskunft (<b>Art. 15 DSGVO</b>) und Löschung (<b>Art. 17 DSGVO</b>) bei Datenhändlern, Auskunfteien und Plattformen verlangen.</li>
+            <li>Personensuchmaschinen und Datenbroker per Opt-out entfernen lassen. Regelmäßig wiederholen.</li>
+          </ul>
+          <ul lang="en">
+            <li>Don't just abandon old accounts, <b>delete</b> them. Change/clear data first.</li>
+            <li>In the EU: request access (<b>Art. 15 GDPR</b>) and erasure (<b>Art. 17 GDPR</b>) from data brokers, credit agencies and platforms.</li>
+            <li>Opt out of people-search sites and data brokers. Repeat regularly.</li>
+          </ul>
+        </div>
+      </li>
+      <li data-step="f-3">
+        <label class="step-head"><input type="checkbox"><span class="box"></span><span class="t"><span lang="de">Anonym bezahlen</span><span lang="en">Pay anonymously</span></span></label>
+        <div class="body">
+          <ul lang="de">
+            <li><b>Bargeld</b> bleibt König, offline und online (z. B. Mullvad per Post).</li>
+            <li><b>Monero (XMR)</b> ist standardmäßig privat. Bitcoin-Transaktionen sind öffentlich und dauerhaft nachverfolgbar.</li>
+            <li>Kryptobörsen mit KYC verknüpfen Wallets mit deinem Ausweis. Plane deine Kette entsprechend und halte die Steuer- und Geldwäschegesetze deines Landes ein.</li>
+          </ul>
+          <ul lang="en">
+            <li><b>Cash</b> is still king, offline and online (e.g. Mullvad by mail).</li>
+            <li><b>Monero (XMR)</b> is private by default. Bitcoin transactions are public and permanently traceable.</li>
+            <li>KYC exchanges link wallets to your ID. Plan your chain accordingly and follow your country's tax and AML laws.</li>
+          </ul>
+        </div>
+      </li>
+    </ol>
+  </section>
+
+  <!-- PHASE 9: EMERGENCY -->
+  <section class="phase" id="emergency">
+    <div class="phase-tag">PHASE_09 // CONTINGENCY</div>
+    <h2><span lang="de">Notfall, Backups &amp; Duress</span><span lang="en">Emergency, backups &amp; duress</span></h2>
+    <ol class="steps">
+      <li data-step="e-1">
+        <label class="step-head"><input type="checkbox"><span class="box"></span><span class="t"><span lang="de">Verschlüsselte Backups (3-2-1)</span><span lang="en">Encrypted backups (3-2-1)</span></span></label>
+        <div class="body">
+          <p lang="de">3 Kopien, 2 Medien, 1 an einem anderen Ort. Immer verschlüsselt, nie unverschlüsselt in eine Cloud.</p>
+          <p lang="en">3 copies, 2 media, 1 off-site. Always encrypted, never unencrypted in a cloud.</p>
+          <div class="term">
+            <div class="term-bar"><span class="dots"><span></span><span></span><span></span></span><span>bash: restic</span><button class="copy" type="button">copy</button></div>
+<pre><span class="p">$ </span>restic -r /media/backup/repo init
+<span class="p">$ </span>restic -r /media/backup/repo backup ~/Documents
+<span class="c"><span lang="de"># LUKS-Header sichern (ohne ihn ist die Platte bei Beschädigung verloren)</span><span lang="en"># Back up the LUKS header (without it a damaged disk is lost)</span></span>
+<span class="p">$ </span>sudo cryptsetup luksHeaderBackup /dev/nvme0n1p2 --header-backup-file luks-header.img</pre>
+          </div>
+        </div>
+      </li>
+      <li data-step="e-2">
+        <label class="step-head"><input type="checkbox"><span class="box"></span><span class="t"><span lang="de">Duress-PIN und Auto-Reboot auf GrapheneOS</span><span lang="en">Duress PIN and auto reboot on GrapheneOS</span></span></label>
+        <div class="body">
+          <ul lang="de">
+            <li>GrapheneOS bietet eine <b>Duress-PIN/-Passwort</b>: Eingegeben, löscht sie das Gerät unwiderruflich. <code>Einstellungen → Sicherheit</code>.</li>
+            <li><b>Auto-Reboot</b> bringt das Gerät nach Inaktivität zurück in den BFU-Zustand, in dem die Daten verschlüsselt ruhen.</li>
+          </ul>
+          <ul lang="en">
+            <li>GrapheneOS offers a <b>duress PIN/password</b>: when entered, it irreversibly wipes the device. <code>Settings → Security</code>.</li>
+            <li><b>Auto reboot</b> returns the device to BFU state after inactivity, where data rests encrypted.</li>
+          </ul>
+          <p class="danger" lang="de">Die Duress-Funktion zu benutzen, während Behörden ein Gerät beschlagnahmen, kann in vielen Ländern als Beweisvernichtung strafbar sein. Kenne deine Rechte und lass dich anwaltlich beraten.</p>
+          <p class="danger" lang="en">Using the duress feature while authorities are seizing a device can be a crime (destruction of evidence) in many countries. Know your rights and get legal advice.</p>
+        </div>
+      </li>
+      <li data-step="e-3">
+        <label class="step-head"><input type="checkbox"><span class="box"></span><span class="t"><span lang="de">Incident-Plan schreiben</span><span lang="en">Write an incident plan</span></span></label>
+        <div class="body">
+          <ul lang="de">
+            <li>Was tust du, wenn ein Gerät verloren geht, ein Account gehackt wird oder eine Persona auffliegt?</li>
+            <li>Liste: welche Passwörter rotieren, welche Sessions beenden, welche Kontakte warnen.</li>
+            <li>Plan offline aufbewahren, z. B. ausgedruckt an einem sicheren Ort.</li>
+          </ul>
+          <ul lang="en">
+            <li>What do you do if a device is lost, an account is hacked or a persona is burned?</li>
+            <li>List: which passwords to rotate, which sessions to kill, which contacts to warn.</li>
+            <li>Keep the plan offline, e.g. printed in a safe place.</li>
+          </ul>
+        </div>
+      </li>
+    </ol>
+  </section>
+
   <!-- RULES -->
   <section class="phase" id="rules">
-    <div class="phase-tag">PHASE_05 // RULES OF ENGAGEMENT</div>
-    <h2>Die goldenen Regeln</h2>
+    <div class="phase-tag">PHASE_10 // RULES OF ENGAGEMENT</div>
+    <h2><span lang="de">Die goldenen Regeln</span><span lang="en">The golden rules</span></h2>
     <ol class="steps">
-      <li data-step="r-1"><label class="step-head"><input type="checkbox"><span class="box"></span><span class="t">Compartmentalization: Identitäten strikt trennen</span></label>
-        <div class="body"><p>Eine Identität = ein Gerät/Profil/VM, eigene Accounts, eigene Usernames, eigene Passwörter. Nie kreuzen.</p></div></li>
-      <li data-step="r-2"><label class="step-head"><input type="checkbox"><span class="box"></span><span class="t">Metadaten sind Daten</span></label>
-        <div class="body"><p>EXIF aus Fotos entfernen (z. B. <code>exiftool -all= bild.jpg</code> oder <code>mat2</code>). Zeitzonen, Schreibstil und Online-Zeiten verraten mehr als Inhalte.</p></div></li>
-      <li data-step="r-3"><label class="step-head"><input type="checkbox"><span class="box"></span><span class="t">Einzigartige Passwörter + Passwort-Manager + 2FA</span></label>
-        <div class="body"><p>Diceware-Passphrasen, offline Passwort-Manager, FIDO2-Keys statt SMS-2FA.</p></div></li>
-      <li data-step="r-4"><label class="step-head"><input type="checkbox"><span class="box"></span><span class="t">Updates sofort einspielen</span></label>
-        <div class="body"><p>Die meisten Kompromittierungen nutzen bekannte, längst gepatchte Lücken.</p></div></li>
-      <li data-step="r-5"><label class="step-head"><input type="checkbox"><span class="box"></span><span class="t">Schweigen ist OpSec</span></label>
-        <div class="body"><p>Erzähl niemandem von deinem Setup, deinen Accounts oder deinen Gewohnheiten. Das, was du nicht sagst, kann nicht geleakt werden.</p></div></li>
+      <li data-step="r-1"><label class="step-head"><input type="checkbox"><span class="box"></span><span class="t"><span lang="de">Compartmentalization: Identitäten strikt trennen</span><span lang="en">Compartmentalization: strictly separate identities</span></span></label>
+        <div class="body">
+          <p lang="de">Eine Identität = ein Gerät/Profil/VM, eigene Accounts, eigene Usernames, eigene Passwörter. Nie kreuzen.</p>
+          <p lang="en">One identity = one device/profile/VM, its own accounts, usernames and passwords. Never cross them.</p>
+        </div></li>
+      <li data-step="r-2"><label class="step-head"><input type="checkbox"><span class="box"></span><span class="t"><span lang="de">Metadaten sind Daten</span><span lang="en">Metadata is data</span></span></label>
+        <div class="body">
+          <p lang="de">EXIF aus Fotos entfernen (z. B. <code>exiftool -all= bild.jpg</code> oder <code>mat2</code>). Zeitzonen, Schreibstil und Online-Zeiten verraten mehr als Inhalte.</p>
+          <p lang="en">Strip EXIF from photos (e.g. <code>exiftool -all= image.jpg</code> or <code>mat2</code>). Time zones, writing style and online hours reveal more than content.</p>
+        </div></li>
+      <li data-step="r-3"><label class="step-head"><input type="checkbox"><span class="box"></span><span class="t"><span lang="de">Einzigartige Passwörter + Passwort-Manager + 2FA</span><span lang="en">Unique passwords + password manager + 2FA</span></span></label>
+        <div class="body">
+          <p lang="de">Diceware-Passphrasen, offline Passwort-Manager, FIDO2-Keys statt SMS-2FA.</p>
+          <p lang="en">Diceware passphrases, offline password manager, FIDO2 keys instead of SMS 2FA.</p>
+        </div></li>
+      <li data-step="r-4"><label class="step-head"><input type="checkbox"><span class="box"></span><span class="t"><span lang="de">Updates sofort einspielen</span><span lang="en">Install updates immediately</span></span></label>
+        <div class="body">
+          <p lang="de">Die meisten Kompromittierungen nutzen bekannte, längst gepatchte Lücken.</p>
+          <p lang="en">Most compromises exploit known, long-patched vulnerabilities.</p>
+        </div></li>
+      <li data-step="r-5"><label class="step-head"><input type="checkbox"><span class="box"></span><span class="t"><span lang="de">Schweigen ist OpSec</span><span lang="en">Silence is OpSec</span></span></label>
+        <div class="body">
+          <p lang="de">Erzähl niemandem von deinem Setup, deinen Accounts oder deinen Gewohnheiten. Das, was du nicht sagst, kann nicht geleakt werden.</p>
+          <p lang="en">Don't tell anyone about your setup, your accounts or your habits. What you don't say can't be leaked.</p>
+        </div></li>
     </ol>
   </section>
 
   <!-- DONATE -->
   <section class="donate" id="donate">
     <h2>&gt; SUPPORT_THE_PROJECT</h2>
-    <p>Dieser Guide ist kostenlos, werbefrei und trackerfrei. Wenn er dir geholfen hat, spendier einen Kaffee.</p>
-    <a class="btn" href="https://buymeacoffee.com/3rr0r303YT" target="_blank" rel="noopener noreferrer">[ BUY ME A COFFEE ]</a>
+    <p lang="de">Dieser Guide ist kostenlos, werbefrei und trackerfrei. Wenn er dir geholfen hat, spendier einen Kaffee.</p>
+    <p lang="en">This guide is free, ad-free and tracker-free. If it helped you, buy me a coffee.</p>
+    <div class="share-row">
+      <a class="btn" href="https://buymeacoffee.com/3rr0r303YT" target="_blank" rel="noopener noreferrer">[ BUY ME A COFFEE ]</a>
+      <a class="btn alt" href="https://github.com/Real3rr0r303YT/OpsecGuide" target="_blank" rel="noopener noreferrer">[ &#9733; STAR ON GITHUB ]</a>
+      <button class="btn alt" id="share" type="button"><span lang="de">[ GUIDE TEILEN ]</span><span lang="en">[ SHARE GUIDE ]</span></button>
+    </div>
   </section>
 
   <footer>
     <p class="sig">// Made by <b>Real3rr0r303YT</b></p>
-    <p>Lizenz: <a href="https://www.gnu.org/licenses/gpl-3.0.html" target="_blank" rel="noopener noreferrer">GNU GPL-3.0</a> // Frei zum Teilen, Ändern, Weiterverbreiten unter denselben Bedingungen.</p>
-    <p>Keine Cookies. Keine Analytics. Keine externen Requests. Fortschritt wird nur lokal in deinem Browser gespeichert.</p>
+    <p lang="de">Lizenz: <a href="https://www.gnu.org/licenses/gpl-3.0.html" target="_blank" rel="noopener noreferrer">GNU GPL-3.0</a> // Frei zum Teilen, Ändern, Weiterverbreiten unter denselben Bedingungen.</p>
+    <p lang="en">License: <a href="https://www.gnu.org/licenses/gpl-3.0.html" target="_blank" rel="noopener noreferrer">GNU GPL-3.0</a> // Free to share, modify and redistribute under the same terms.</p>
+    <p lang="de">Keine Cookies. Keine Analytics. Keine externen Requests. Fortschritt wird nur lokal in deinem Browser gespeichert.</p>
+    <p lang="en">No cookies. No analytics. No external requests. Progress is stored only locally in your browser.</p>
     <p class="dim">EOF<span class="cursor" aria-hidden="true"></span></p>
   </footer>
 </main>
 
-<button id="totop" type="button" aria-label="Nach oben">^ top</button>
+<button id="totop" type="button" aria-label="Top">^ top</button>
 
 <script>
 (function () {
@@ -751,6 +1299,30 @@ EOF
   };
 
   var reduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* ---------- LANGUAGE (DE / EN) ---------- */
+  var root = document.documentElement;
+  var langBtn = document.getElementById("lang-toggle");
+  function setLang(l) {
+    root.lang = l;
+    store.set("opsec-lang", l);
+    Array.prototype.forEach.call(langBtn.querySelectorAll("[data-l]"), function (b) {
+      b.classList.toggle("on", b.getAttribute("data-l") === l);
+    });
+  }
+  var savedLang = store.get("opsec-lang");
+  setLang(savedLang === "de" || savedLang === "en" ? savedLang
+    : (/^de\b/i.test(navigator.language || "") ? "de" : "en"));
+  langBtn.addEventListener("click", function () { setLang(root.lang === "de" ? "en" : "de"); });
+
+  /* ---------- TAGLINE PHRASES ---------- */
+  var phrases = [
+    "$ whoami  # nobody.",
+    "$ ./privacy --is-a-right",
+    "$ rm -rf ~/.digital_footprint",
+    "$ sudo opsec --level=paranoid",
+    "control is an illusion. privacy is not."
+  ];
 
   /* ---------- BOOT SEQUENCE ---------- */
   var boot = document.getElementById("boot");
@@ -782,7 +1354,7 @@ EOF
   if (reduced || store.get("opsec-booted")) {
     boot.style.display = "none";
     bootDone = true;
-    startTyping();
+    setTimeout(startTyping, 0);
   } else {
     store.set("opsec-booted", "1");
     var i = 0;
@@ -800,13 +1372,6 @@ EOF
   }
 
   /* ---------- TYPED TAGLINE ---------- */
-  var phrases = [
-    "$ whoami  # nobody.",
-    "$ ./privacy --is-a-right",
-    "$ rm -rf ~/.digital_footprint",
-    "$ sudo opsec --level=paranoid",
-    "control is an illusion. privacy is not."
-  ];
   var typedEl = document.getElementById("typed");
   var typingStarted = false;
   function startTyping() {
@@ -859,7 +1424,7 @@ EOF
   });
 
   document.getElementById("reset").addEventListener("click", function () {
-    if (!confirm("Gesamten Fortschritt löschen?")) return;
+    if (!confirm(root.lang === "de" ? "Gesamten Fortschritt löschen?" : "Reset all progress?")) return;
     state = {};
     store.del(KEY);
     render();
@@ -889,6 +1454,23 @@ EOF
         document.body.removeChild(ta);
       }
     });
+  });
+
+  /* ---------- SHARE (no third-party widgets) ---------- */
+  var shareBtn = document.getElementById("share");
+  shareBtn.addEventListener("click", function () {
+    var url = location.href.split("#")[0];
+    if (navigator.share) {
+      navigator.share({ title: document.title, url: url }).catch(function () {});
+      return;
+    }
+    var label = shareBtn.innerHTML;
+    function done() {
+      shareBtn.textContent = root.lang === "de" ? "[ LINK KOPIERT ]" : "[ LINK COPIED ]";
+      setTimeout(function () { shareBtn.innerHTML = label; }, 1500);
+    }
+    if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(url).then(done, function () {});
+    else prompt("URL:", url);
   });
 
   /* ---------- FX TOGGLE ---------- */
