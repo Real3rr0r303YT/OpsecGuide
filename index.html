@@ -18,6 +18,14 @@
   Absichtlich KEINE externen Ressourcen (keine Google Fonts, kein CDN,
   keine Tracker). Ein OpSec-Guide, der dich an Big Tech verpetzt, waere ein Witz.
 -->
+<script>
+  (function () {
+    var d = document.documentElement, t = null, l = null;
+    try { t = localStorage.getItem("opsec-theme"); l = localStorage.getItem("opsec-lang"); } catch (e) {}
+    d.setAttribute("data-theme", t === "hacker" ? "hacker" : "graphene");
+    d.lang = (l === "de" || l === "en") ? l : (/^de\b/i.test(navigator.language || "") ? "de" : "en");
+  })();
+</script>
 <style>
 :root {
   --bg: #000000;
@@ -291,6 +299,155 @@ footer p + p { margin-top: 6px; }
   ol.steps > li { padding-left: 32px; }
   .tagline { font-size: 15px; }
 }
+
+/* =====================================================================
+   THEME: GRAPHENE (GrapheneOS-inspired, Material-style, light + dark)
+   ===================================================================== */
+.th-g { display: none; }
+html[data-theme="graphene"] .th-g { display: inline; }
+html[data-theme="graphene"] .th-h { display: none !important; }
+
+html[data-theme="graphene"] {
+  --bg: #f7f9fc;
+  --bg-2: #ffffff;
+  --bg-3: #eef2f7;
+  --green: #1a63c7;
+  --green-dim: #c9d4e3;
+  --green-dark: #d8e6fb;
+  --red: #ba1a1a;
+  --red-dark: #fde7e5;
+  --text: #1a1c1e;
+  --muted: #5b6270;
+  --line: #dde3ec;
+  --on-accent: #ffffff;
+  --sans: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", Ubuntu, Cantarell, sans-serif;
+  scroll-padding-top: 80px;
+}
+@media (prefers-color-scheme: dark) {
+  html[data-theme="graphene"] {
+    --bg: #111317;
+    --bg-2: #1b1e23;
+    --bg-3: #24282f;
+    --green: #8ab4f8;
+    --green-dim: #3a414c;
+    --green-dark: #233a5c;
+    --red: #ffb4ab;
+    --red-dark: #3b1714;
+    --text: #e3e5ea;
+    --muted: #a3a9b4;
+    --line: #2e333b;
+    --on-accent: #0b2a52;
+  }
+}
+html[data-theme="graphene"] body {
+  background: var(--bg); background-image: none;
+  font-family: var(--sans); font-size: 16px; line-height: 1.65;
+}
+html[data-theme="graphene"] ::selection { background: var(--green-dark); color: var(--text); }
+html[data-theme="graphene"] .crt-scanlines,
+html[data-theme="graphene"] .crt-flicker,
+html[data-theme="graphene"] .crt-vignette,
+html[data-theme="graphene"] #boot,
+html[data-theme="graphene"] #fx-toggle,
+html[data-theme="graphene"] .ascii { display: none !important; }
+
+html[data-theme="graphene"] header.top { background: color-mix(in srgb, var(--bg) 88%, transparent); border-bottom-color: var(--line); backdrop-filter: blur(12px); }
+html[data-theme="graphene"] .top .wrap { height: 64px; }
+html[data-theme="graphene"] .brand { color: var(--text); letter-spacing: 0; display: inline-flex; align-items: center; gap: 8px; font-family: var(--sans); }
+html[data-theme="graphene"] .brand svg { color: var(--green); }
+html[data-theme="graphene"] nav.links { gap: 6px; }
+html[data-theme="graphene"] nav.links a { font-family: var(--sans); font-size: 14px; color: var(--muted); border: none; border-radius: 999px; padding: 6px 12px; }
+html[data-theme="graphene"] nav.links a:hover,
+html[data-theme="graphene"] nav.links a.active { background: var(--green-dark); color: var(--text); }
+html[data-theme="graphene"] .fx-toggle { font-family: var(--sans); border-radius: 999px; padding: 6px 12px; font-size: 13px; color: var(--text); border-color: var(--line); }
+html[data-theme="graphene"] #lang-toggle b.on { color: var(--on-accent); border-radius: 999px; padding: 0 6px; }
+
+html[data-theme="graphene"] .promo { background: var(--green-dark); border-bottom: none; color: var(--text); font-family: var(--sans); font-size: 13px; }
+html[data-theme="graphene"] .promo a { color: var(--green); text-decoration-color: currentColor; }
+html[data-theme="graphene"] .promo a:hover { background: none; color: var(--text); }
+
+html[data-theme="graphene"] .hero { padding: 64px 0 24px; }
+.g-title { display: none; }
+html[data-theme="graphene"] .g-title {
+  display: block; font-family: var(--sans); font-size: clamp(36px, 7vw, 60px); line-height: 1.1;
+  font-weight: 700; letter-spacing: -0.02em; color: var(--text);
+}
+html[data-theme="graphene"] .g-title span { color: var(--green); }
+html[data-theme="graphene"] .tagline { font-family: var(--mono); font-size: 15px; color: var(--muted); }
+html[data-theme="graphene"] .cursor { width: 2px; background: var(--green); box-shadow: none; }
+html[data-theme="graphene"] .hero p.lead strong { color: var(--green); }
+html[data-theme="graphene"] .warn { border: none; border-radius: 16px; background: var(--red-dark); color: var(--text); }
+
+html[data-theme="graphene"] .progress-box,
+html[data-theme="graphene"] .card { border-radius: 20px; border-color: var(--line); background: var(--bg-2); }
+html[data-theme="graphene"] .progress-head { font-family: var(--sans); }
+html[data-theme="graphene"] .bar { border: none; padding: 0; height: 8px; border-radius: 999px; background: var(--bg-3); overflow: hidden; }
+html[data-theme="graphene"] .bar span { box-shadow: none; border-radius: 999px; }
+
+html[data-theme="graphene"] section.phase { border-top: 1px solid var(--line); }
+html[data-theme="graphene"] .phase-tag { color: var(--green); font-family: var(--sans); font-weight: 600; font-size: 12px; letter-spacing: 0.08em; }
+html[data-theme="graphene"] .phase h2 { color: var(--text); text-shadow: none; font-family: var(--sans); font-weight: 700; letter-spacing: -0.01em; }
+html[data-theme="graphene"] .phase h2::before,
+html[data-theme="graphene"] h3.sub::before { content: none; }
+html[data-theme="graphene"] .card h4 { color: var(--text); font-family: var(--sans); }
+
+html[data-theme="graphene"] ol.steps > li {
+  border-left: none; background: var(--bg-2); border: 1px solid var(--line); border-radius: 20px;
+  padding: 18px 18px 18px 64px; margin-bottom: 12px;
+}
+html[data-theme="graphene"] ol.steps > li:last-child { border-color: var(--line); }
+html[data-theme="graphene"] ol.steps > li::before {
+  left: 18px; top: 18px; border-radius: 50%; border: none; background: var(--green-dark);
+  color: var(--text); font-family: var(--sans); font-weight: 600;
+}
+html[data-theme="graphene"] ol.steps > li.done::before { background: var(--green); color: var(--on-accent); }
+html[data-theme="graphene"] ol.steps ul li::marker { content: "•  "; color: var(--green); }
+html[data-theme="graphene"] .step-head .t { color: var(--text); font-weight: 600; }
+html[data-theme="graphene"] .step-head .box { border-radius: 6px; border: 2px solid var(--muted); }
+html[data-theme="graphene"] .step-head input:checked + .box { background: var(--green); border-color: var(--green); box-shadow: none; }
+html[data-theme="graphene"] ol.steps > li.done > label .t { text-decoration-color: var(--muted); }
+
+html[data-theme="graphene"] a { text-decoration-color: color-mix(in srgb, var(--green) 45%, transparent); }
+html[data-theme="graphene"] a:hover { color: var(--green); background: none; text-decoration-color: currentColor; }
+html[data-theme="graphene"] code { border-radius: 6px; border-color: var(--line); color: var(--text); }
+
+html[data-theme="graphene"] .term { border-radius: 16px; border-color: var(--line); background: var(--bg-3); box-shadow: none; overflow: hidden; }
+html[data-theme="graphene"] .term pre { color: var(--text); }
+html[data-theme="graphene"] .term pre .p { color: var(--green); }
+html[data-theme="graphene"] .term-bar .dots { display: none; }
+html[data-theme="graphene"] .copy { border-radius: 999px; padding: 2px 10px; }
+html[data-theme="graphene"] .copy.copied { color: var(--on-accent); border-color: var(--green); }
+
+html[data-theme="graphene"] .note,
+html[data-theme="graphene"] .danger { border-left: none; border-radius: 12px; background: var(--green-dark); color: var(--text); }
+html[data-theme="graphene"] .danger { background: var(--red-dark); }
+html[data-theme="graphene"] .note::before { content: "ⓘ "; }
+html[data-theme="graphene"] .danger::before { content: "⚠ "; }
+
+html[data-theme="graphene"] .table-wrap { border: 1px solid var(--line); border-radius: 16px; margin-top: 12px; }
+html[data-theme="graphene"] table.cmp { margin-top: 0; border-style: hidden; }
+html[data-theme="graphene"] table.cmp th { background: var(--bg-3); color: var(--text); }
+html[data-theme="graphene"] table.cmp td:first-child { color: var(--text); font-weight: 600; }
+
+html[data-theme="graphene"] .donate { border: none; border-radius: 24px; background: var(--green-dark); }
+html[data-theme="graphene"] .donate h2 { color: var(--text); font-family: var(--sans); }
+html[data-theme="graphene"] .btn {
+  border-radius: 999px; background: var(--green); color: var(--on-accent); border-color: var(--green);
+  box-shadow: none; font-family: var(--sans); letter-spacing: 0; padding: 10px 22px;
+}
+html[data-theme="graphene"] .btn:hover { filter: brightness(1.08); box-shadow: none; background: var(--green); color: var(--on-accent); }
+html[data-theme="graphene"] .btn.alt { background: transparent; color: var(--green); border-color: var(--green-dim); }
+html[data-theme="graphene"] .btn.alt:hover { background: var(--bg-2); color: var(--green); }
+
+html[data-theme="graphene"] footer .sig { color: var(--text); }
+html[data-theme="graphene"] footer .sig b { color: var(--green); }
+html[data-theme="graphene"] #totop { background: var(--bg-2); border-color: var(--line); color: var(--text); border-radius: 999px; padding: 8px 14px; font-family: var(--sans); }
+@media (max-width: 640px) {
+  html[data-theme="graphene"] .top .wrap { height: auto; }
+  html[data-theme="graphene"] ol.steps > li { padding: 16px 14px; }
+  html[data-theme="graphene"] ol.steps > li::before { left: 14px; top: 16px; }
+  html[data-theme="graphene"] ol.steps > li > .step-head { padding-left: 40px; min-height: 28px; }
+}
 </style>
 </head>
 <body>
@@ -313,7 +470,7 @@ footer p + p { margin-top: 6px; }
 
 <header class="top">
   <div class="wrap">
-    <a class="brand" href="#top">root@opsec<span class="r">:~#</span></a>
+    <a class="brand" href="#top"><span class="th-h">root@opsec<span class="r">:~#</span></span><span class="th-g"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true" style="vertical-align:-4px;margin-right:8px"><path d="M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5l-8-3Z"/><path d="m9 12 2 2 4-4"/></svg>OpSec Guide</span></a>
     <nav class="links" aria-label="Phases">
       <a href="#threat">00_threat</a>
       <a href="#phase1">01_physical</a>
@@ -329,6 +486,7 @@ footer p + p { margin-top: 6px; }
     </nav>
     <div class="toggles">
       <button class="fx-toggle" id="lang-toggle" type="button" title="Sprache / Language"><b data-l="de">DE</b>|<b data-l="en">EN</b></button>
+      <button class="fx-toggle" id="theme-toggle" type="button" title="Theme"><span class="th-h">[theme:hacker]</span><span class="th-g">◐ Graphene</span></button>
       <button class="fx-toggle" id="fx-toggle" type="button" title="CRT FX">[fx:on]</button>
     </div>
   </div>
@@ -346,6 +504,7 @@ footer p + p { margin-top: 6px; }
 ╚██████╔╝██║     ███████║███████╗╚██████╗    ╚██████╔╝╚██████╔╝██║██████╔╝███████╗
  ╚═════╝ ╚═╝     ╚══════╝╚══════╝ ╚═════╝     ╚═════╝  ╚═════╝ ╚═╝╚═════╝ ╚══════╝
 </pre>
+    <h1 class="g-title">OpSec &amp; Privacy <span>Guide</span></h1>
     <div class="tagline"><span id="typed"></span><span class="cursor" aria-hidden="true"></span></div>
     <p class="lead" lang="de">
       Der vollständige Step-by-Step Guide für <strong>Operational Security</strong> &amp; Privacy.
@@ -1310,9 +1469,20 @@ EOF
       b.classList.toggle("on", b.getAttribute("data-l") === l);
     });
   }
-  var savedLang = store.get("opsec-lang");
-  setLang(savedLang === "de" || savedLang === "en" ? savedLang
-    : (/^de\b/i.test(navigator.language || "") ? "de" : "en"));
+  setLang(root.lang === "de" ? "de" : "en");
+
+  /* ---------- THEME (graphene / hacker) ---------- */
+  var themeMeta = document.querySelector('meta[name="theme-color"]');
+  function setTheme(t) {
+    root.setAttribute("data-theme", t);
+    store.set("opsec-theme", t);
+    themeMeta.setAttribute("content", t === "hacker" ? "#000000"
+      : (window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches ? "#111317" : "#f7f9fc"));
+  }
+  setTheme(root.getAttribute("data-theme") === "hacker" ? "hacker" : "graphene");
+  document.getElementById("theme-toggle").addEventListener("click", function () {
+    setTheme(root.getAttribute("data-theme") === "hacker" ? "graphene" : "hacker");
+  });
   langBtn.addEventListener("click", function () { setLang(root.lang === "de" ? "en" : "de"); });
 
   /* ---------- TAGLINE PHRASES ---------- */
@@ -1351,7 +1521,7 @@ EOF
     startTyping();
   }
 
-  if (reduced || store.get("opsec-booted")) {
+  if (reduced || store.get("opsec-booted") || root.getAttribute("data-theme") !== "hacker") {
     boot.style.display = "none";
     bootDone = true;
     setTimeout(startTyping, 0);
